@@ -10,22 +10,25 @@ import { parseResume } from "./lib/resume-parser"
 import { AuthProvider } from '@/contexts/auth-context'
 import { ProfileProvider } from '@/contexts/profile-context'
 
-
 function App() {
   const navigate = useNavigate()
   const [isProcessing, setIsProcessing] = useState(false)
   const { setParsedResume } = useResume()
 
+
   const handleResumeParse = async (file: File) => {
     try {
       setIsProcessing(true)
       const parsedData = await parseResume(file)
-      setParsedResume(parsedData)
-      toast.success('Resume parsed successfully!')
-      navigate('/profile')
+      
+      if (parsedData) {
+        console.log('Parsed resume data:', parsedData)
+        setParsedResume(parsedData)
+        navigate('/profile')
+      }
     } catch (error) {
-      toast.error('Failed to parse resume')
       console.error('Resume parsing error:', error)
+      toast.error('Failed to parse resume')
     } finally {
       setIsProcessing(false)
     }

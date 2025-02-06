@@ -1,167 +1,449 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useProfile } from "@/contexts/profile-context"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { BasicInfoSection } from "@/components/profile/basic-info-section"
 import { ExperienceSection } from "@/components/profile/experience-section"
 import { EducationSection } from "@/components/profile/education-section"
 import { ProjectsSection } from "@/components/profile/projects-section"
 import { AchievementsSection } from "@/components/profile/achievements-section"
+import { TemplatesSection } from '@/components/profile/template-section'
 import { useResume } from '@/contexts/resume-context'
 import { useToast } from "@/components/ui/custom-toaster"
 import { supabase } from '@/lib/supabase'
-import { useOkto } from 'okto-sdk-react'
+import { LoadingSpinner } from "@/components/ui/loading-spinner"
+import { useAuth } from "@/hooks/user-auth"
+import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Settings, Bell, Search, Mail } from 'lucide-react'
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { Tabs, TabsContent } from '@/components/ui/tabs'
 
 export default function ProfilePage() {
-  const { profile, loading: profileLoading, error, updateProfile } = useProfile()
   const { parsedResume } = useResume()
+  const { userDetails, fetchUserDetails } = useAuth()
+  const [isLoading, setIsLoading] = useState(true)
+  const { profile, updateProfile } = useProfile()
   const { toast } = useToast()
-  const { getUserDetails, isLoggedIn } = useOkto()
+  const [activeTab, setActiveTab] = useState('basic-info')
+  const [isSidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [alertInfo, setAlertInfo] = useState<{
+    show: boolean;
+    type: 'success' | 'error';
+    message: string;
+  } | null>(null)
 
+  // Load existing profile or parsed resume data
   useEffect(() => {
-    if (!profile || !parsedResume) return;
+    const loadProfile = async () => {
+      try {
+        setIsLoading(true)
+        
+        if (!userDetails?.user_id) {
+          throw new Error('User not authenticated')
+        }
 
-    const formattedData = {
-      basic_info: {
-        ...profile.basic_info,
-        name: parsedResume.basic_info?.name || profile.basic_info.name,
-        email: parsedResume.basic_info?.email || profile.basic_info.email,
-        phone: parsedResume.basic_info?.phone || profile.basic_info.phone,
-        location: parsedResume.basic_info?.location || profile.basic_info.location,
-        desiredRole: parsedResume.basic_info?.desiredRole || profile.basic_info.desiredRole,
-        bio: parsedResume.basic_info?.bio || profile.basic_info.bio
+        if (parsedResume) {
+          // If we have parsed resume data, use that
+          updateProfile(parsedResume)
+        } else {
+          // Try to load existing profile
+          const { data: existingProfile, error } = await supabase
+            .from('profiles')
+            .select('*')
+            .eq('user_id', userDetails.user_id)
+            .maybeSingle()
+
+          if (existingProfile && !error) {
+            updateProfile(existingProfile)
+          }
+        }
+      } catch (error) {
+        console.error('Error loading profile:', error)
+        toast({
+          title: "Error",
+          description: "Failed to load profile data",
+          variant: "destructive",
+        })
+      } finally {
+        setIsLoading(false)
       }
-    };
-    
-    updateProfile(formattedData);
-  }, [parsedResume, profile, updateProfile]);
+    }
+
+    loadProfile()
+  }, [userDetails, parsedResume, updateProfile])
 
   useEffect(() => {
-    console.log('Profile page mounted/updated:', {
-      isLoggedIn,
-      profile,
-      profileLoading
-    })
-  }, [isLoggedIn, profile, profileLoading])
+    const checkAuth = async () => {
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('[Profile] Current auth session:', {
+        userId: session?.user?.id,
+        matchesUserDetails: session?.user?.id === userDetails?.user_id
+      })
+    }
+    checkAuth()
+  }, [userDetails?.user_id])
+
+  useEffect(() => {
+    const refreshSession = async () => {
+      const { data: { session }, error } = await supabase.auth.getSession()
+      if (error || !session) {
+        console.error('[Profile] Session refresh error:', error)
+        // Redirect to login or show error
+        return
+      }
+      console.log('[Profile] Session refreshed:', {
+        userId: session.user.id,
+        email: session.user.email
+      })
+    }
+    refreshSession()
+  }, [])
 
   const handleSave = async () => {
     try {
-      const oktoDetails = await getUserDetails()
-      
-      if (!profile || !oktoDetails?.user_id) {
-        console.log('No profile or Okto user_id found', {
-          hasProfile: !!profile,
-          oktoDetails
-        });
-        toast({
-          title: "Error",
-          description: "No profile data or user found",
-          variant: "destructive",
-        })
-        return;
+      if (!userDetails?.user_id) {
+        throw new Error('User not authenticated')
       }
 
-      const profileData = {
-        user_id: oktoDetails.user_id,
-        education: profile.education || [],
-        experience: profile.experience || [],
-        projects: profile.projects || [],
-        achievements: profile.achievements || [],
-        basic_info: {
-          name: profile.basic_info.name || parsedResume?.basic_info?.name || '',
-          email: oktoDetails.email,
-          phone: profile.basic_info.phone || parsedResume?.basic_info?.phone || '',
-          location: profile.basic_info.location || parsedResume?.basic_info?.location || '',
-          desiredRole: profile.basic_info.desiredRole || parsedResume?.basic_info?.desiredRole || '',
-          bio: profile.basic_info.bio || parsedResume?.basic_info?.bio || ''
-        }
-      }
+      // Show saving alert
+      setAlertInfo({
+        show: true,
+        type: 'success',
+        message: 'Saving changes...'
+      });
 
-      console.log('Attempting to save profile data:', profileData);
-
-      const { error: supabaseError } = await supabase
+      // Step 1: Save profile data
+      const { error: profileError } = await supabase
         .from('profiles')
-        .upsert(profileData, {
+        .upsert({
+          user_id: userDetails.user_id,
+          basic_info: profile?.basic_info,
+          experience: profile?.experience,
+          education: profile?.education,
+          projects: profile?.projects,
+          achievements: profile?.achievements
+        }, {
           onConflict: 'user_id'
-        });
+        })
 
-      if (supabaseError) {
-        console.error('Supabase error:', supabaseError);
-        throw supabaseError;
+      if (profileError) {
+        throw profileError
       }
 
-      toast({
-        title: "Success",
-        description: "Profile saved successfully",
+      console.log('[Profile] Profile saved successfully')
+
+      // Step 2: Get current session
+      const { data: { session } } = await supabase.auth.getSession()
+      console.log('[Profile] Current session:', {
+        sessionUserId: session?.user?.id,
+        userDetailsId: userDetails.user_id
       })
+
+      // Step 3: First verify the user exists
+      const { data: existingUser, error: findError } = await supabase
+        .from('users')
+        .select('*')
+        .eq('user_id', userDetails.user_id)
+        .single()
+
+      console.log('[Profile] Found user:', { 
+        existingUser,
+        findError,
+        userMatch: session?.user?.id === existingUser?.user_id
+      })
+
+      if (findError) {
+        console.error('[Profile] Error finding user:', findError)
+        throw findError
+      }
+
+      if (!existingUser) {
+        throw new Error('User not found')
+      }
+
+      // Step 4: Update has_profile flag using a simpler update
+      const { data: updatedUser, error: userError } = await supabase
+        .from('users')
+        .update({ has_profile: true })
+        .eq('id', existingUser.id)
+        .select()
+
+      console.log('[Profile] User update attempt:', {
+        updateQuery: {
+          table: 'users',
+          id: existingUser.id,
+          user_id: existingUser.user_id,
+          update: { has_profile: true }
+        },
+        result: {
+          data: updatedUser,
+          error: userError ? {
+            code: userError.code,
+            message: userError.message,
+            details: userError.details,
+            hint: userError.hint
+          } : null
+        }
+      })
+
+      if (userError) {
+        console.error('[Profile] User update error:', userError)
+        throw userError
+      }
+
+      // Step 5: Verify the update
+      const { data: verifyUser } = await supabase
+        .from('users')
+        .select('*')
+        .eq('id', existingUser.id)
+        .single()
+
+      console.log('[Profile] Verification:', {
+        before: existingUser.has_profile,
+        after: verifyUser?.has_profile
+      })
+
+      // Step 6: Refresh user details
+      await fetchUserDetails()
+
+      // Show success alert
+      setAlertInfo({
+        show: true,
+        type: 'success',
+        message: 'Changes saved successfully!'
+      });
+
+      // Hide alert after 3 seconds
+      setTimeout(() => {
+        setAlertInfo(null);
+      }, 3000);
+
     } catch (error) {
-      console.error('Error saving profile:', error)
-      toast({
-        title: "Error",
-        description: typeof error === 'object' && error !== null ? (error as any).message : "Failed to save profile",
-        variant: "destructive",
-      })
+      console.error('[Profile] Save error:', error)
+      // Show error alert
+      setAlertInfo({
+        show: true,
+        type: 'error',
+        message: error instanceof Error 
+          ? `Failed to save: ${error.message}`
+          : 'Failed to save profile. Please try again.'
+      });
+
+      // Hide error alert after 5 seconds
+      setTimeout(() => {
+        setAlertInfo(null);
+      }, 5000);
     }
   }
 
-  if (error) {
-    return (
-      <div className="flex items-center justify-center min-h-screen">
-        <Card className="p-6 max-w-md">
-          <h2 className="text-lg font-semibold text-red-500 mb-2">Error</h2>
-          <p className="text-muted-foreground">{error}</p>
-        </Card>
-      </div>
-    )
-  }
-
-  if (!profile) {
-    return null
+  if (isLoading) {
+    return <LoadingSpinner />
   }
 
   return (
-    <div className="container max-w-7xl py-8 space-y-8">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold">Profile</h1>
-        <Button 
-          onClick={handleSave}
-          className="bg-primary text-white hover:bg-primary/90"
-          disabled={!isLoggedIn}
-        >
-          Save Profile
-        </Button>
+    <div className="min-h-screen bg-background flex">
+      {/* Sidebar */}
+      <div className={`fixed left-0 top-0 h-full bg-card border-r border-border/50 transition-all duration-300 
+        ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}>
+        
+        {/* Sidebar Header */}
+        <div className="p-4 border-b border-border/50">
+          <div className="flex items-center justify-between">
+            {!isSidebarCollapsed && (
+              <div className="flex items-center space-x-3">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src={profile?.basic_info?.avatar} />
+                  <AvatarFallback>
+                    {profile?.basic_info?.name 
+                      ? profile.basic_info.name.split(' ').map(n => n[0]).join('').toUpperCase()
+                      : userDetails?.email?.slice(0, 2).toUpperCase() || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div>
+                  <h3 className="font-medium">
+                    {profile?.basic_info?.name || userDetails?.email?.split('@')[0] || 'User'}
+                  </h3>
+                  <p className="text-xs text-muted-foreground">
+                    {profile?.basic_info?.title || 'Profile'}
+                  </p>
+                </div>
+              </div>
+            )}
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+            >
+              <ChevronLeft className={`h-4 w-4 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
+            </Button>
+          </div>
+        </div>
+
+        {/* Navigation */}
+        <div className="p-3 space-y-2">
+          <NavButton
+            icon={<User />}
+            label="Basic Info"
+            isActive={activeTab === 'basic-info'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('basic-info')}
+          />
+          <NavButton
+            icon={<Briefcase />}
+            label="Experience"
+            isActive={activeTab === 'experience'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('experience')}
+          />
+          <NavButton
+            icon={<GraduationCap />}
+            label="Education"
+            isActive={activeTab === 'education'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('education')}
+          />
+          <NavButton
+            icon={<FolderGit2 />}
+            label="Projects"
+            isActive={activeTab === 'projects'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('projects')}
+          />
+          <NavButton
+            icon={<Trophy />}
+            label="Achievements"
+            isActive={activeTab === 'achievements'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('achievements')}
+          />
+          <NavButton
+            icon={<Mail />}
+            label="Templates"
+            isActive={activeTab === 'templates'}
+            isCollapsed={isSidebarCollapsed}
+            onClick={() => setActiveTab('templates')}
+          />
+        </div>
+
+        {/* Bottom Actions */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border/50">
+          {alertInfo && alertInfo.show && (
+            <div 
+              className={`absolute bottom-full left-4 right-4 mb-2 p-3 rounded-lg shadow-lg transition-all duration-300 ${
+                alertInfo.type === 'success' 
+                  ? 'bg-green-100 border border-green-400 text-green-800'
+                  : 'bg-red-100 border border-red-400 text-red-800'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <div className="flex items-center">
+                  {alertInfo.type === 'success' ? (
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                  ) : (
+                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                    </svg>
+                  )}
+                  <span className="font-medium">{alertInfo.message}</span>
+                </div>
+                <button 
+                  onClick={() => setAlertInfo(null)}
+                  className="text-sm hover:text-gray-600"
+                >
+                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+          )}
+          <Button 
+            className="w-full relative group"
+            onClick={handleSave}
+            variant="default"
+          >
+            <Save className="h-4 w-4 mr-2" />
+            {!isSidebarCollapsed && (
+              <>
+                Save Changes
+                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                  Click to save your changes
+                </div>
+              </>
+            )}
+          </Button>
+        </div>
       </div>
 
-      <Tabs defaultValue="basic" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-5 lg:w-auto">
-          <TabsTrigger value="basic">Basic Info</TabsTrigger>
-          <TabsTrigger value="experience">Experience</TabsTrigger>
-          <TabsTrigger value="education">Education</TabsTrigger>
-          <TabsTrigger value="projects">Projects</TabsTrigger>
-          <TabsTrigger value="achievements">Achievements</TabsTrigger>
-        </TabsList>
+      {/* Main Content */}
+      <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
+        {/* Top Bar */}
+        <div className="h-16 border-b border-border/50 bg-card/50 backdrop-blur-sm fixed top-0 right-0 left-72 z-10 flex items-center justify-between px-6">
+          <div className="flex items-center flex-1 max-w-xl">
+            <Search className="h-4 w-4 text-muted-foreground absolute ml-3" />
+            <Input 
+              placeholder="Search..." 
+              className="pl-10 bg-background/50"
+            />
+          </div>
+          <div className="flex items-center space-x-4">
+            <Button variant="ghost" size="icon">
+              <Bell className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="icon">
+              <Settings className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
 
-        <TabsContent value="basic" className="space-y-4">
-          <BasicInfoSection />
-        </TabsContent>
-
-        <TabsContent value="experience" className="space-y-4">
-          <ExperienceSection />
-        </TabsContent>
-
-        <TabsContent value="education" className="space-y-4">
-          <EducationSection />
-        </TabsContent>
-
-        <TabsContent value="projects" className="space-y-4">
-          <ProjectsSection />
-        </TabsContent>
-
-        <TabsContent value="achievements" className="space-y-4">
-          <AchievementsSection />
-        </TabsContent>
-      </Tabs>
+        {/* Content Area */}
+        <div className="p-6 pt-24 max-w-5xl mx-auto">
+          <Tabs value={activeTab} onValueChange={setActiveTab}>
+            <TabsContent value="basic-info">
+              <BasicInfoSection />
+            </TabsContent>
+            <TabsContent value="experience">
+              <ExperienceSection />
+            </TabsContent>
+            <TabsContent value="education">
+              <EducationSection />
+            </TabsContent>
+            <TabsContent value="projects">
+              <ProjectsSection />
+            </TabsContent>
+            <TabsContent value="achievements">
+              <AchievementsSection />
+            </TabsContent>
+            <TabsContent value="templates">
+              <TemplatesSection />
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </div>
   )
 }
+
+// Helper Components
+interface NavButtonProps {
+  icon: React.ReactNode
+  label: string
+  isActive: boolean
+  isCollapsed: boolean
+  onClick: () => void
+}
+
+function NavButton({ icon, label, isActive, isCollapsed, onClick }: NavButtonProps) {
+  return (
+    <Button
+      variant={isActive ? "secondary" : "ghost"}
+      className={`w-full justify-start ${isActive ? 'bg-primary/10' : ''}`}
+      onClick={onClick}
+    >
+      <span className="h-4 w-4">{icon}</span>
+      {!isCollapsed && <span className="ml-3">{label}</span>}
+    </Button>
+  )
+}
+

@@ -1,5 +1,6 @@
-import { createContext, useContext, useState } from 'react'
+import { createContext, useContext, useState, useCallback, useMemo } from 'react'
 import { Profile } from '@/types/profile'
+import { isEqual } from '@/lib/utils'
 
 interface ProfileContextType {
   profile: Profile | null
@@ -9,6 +10,7 @@ interface ProfileContextType {
 }
 
 const initialProfile: Profile = {
+  user_id: '',
   basic_info: {
     name: '',
     title: '',
@@ -28,31 +30,49 @@ const ProfileContext = createContext<ProfileContextType | undefined>(undefined)
 
 export function ProfileProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile>(initialProfile)
-  const [loading, _setLoading] = useState(false)
-  const [error, _setError] = useState<string | null>(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const updateProfile = (data: Partial<Profile>) => {
-    console.log('Updating profile with:', data);
-    setProfile(prevProfile => {
-      const updatedProfile = {
-        ...prevProfile,
-        ...data,
-        basic_info: {
-          ...(prevProfile?.basic_info || initialProfile.basic_info),
-          ...(data.basic_info || {})
-        },
-        experience: data.experience || prevProfile?.experience || [],
-        education: data.education || prevProfile?.education || [],
-        projects: data.projects || prevProfile?.projects || [],
-        achievements: data.achievements || prevProfile?.achievements || []
-      };
-      console.log('Updated profile:', updatedProfile);
-      return updatedProfile;
-    })
-  }
+  const updateProfile = useCallback((data: Partial<Profile>) => {
+    setLoading(true)
+    try {
+      setProfile(prevProfile => {
+        const updatedProfile = {
+          ...prevProfile,
+          basic_info: {
+            ...prevProfile.basic_info,
+            ...(data.basic_info || {})
+          },
+          experience: data.experience || prevProfile.experience,
+          education: data.education || prevProfile.education,
+          projects: data.projects || prevProfile.projects,
+          achievements: data.achievements || prevProfile.achievements
+        }
+
+        // Only update if there are actual changes
+        if (isEqual(prevProfile, updatedProfile)) {
+          return prevProfile
+        }
+
+        console.log('Profile updated:', updatedProfile)
+        return updatedProfile
+      })
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update profile')
+    } finally {
+      setLoading(false)
+    }
+  }, [])
+
+  const value = useMemo(() => ({
+    profile,
+    loading,
+    error,
+    updateProfile
+  }), [profile, loading, error, updateProfile]);
 
   return (
-    <ProfileContext.Provider value={{ profile, loading, error, updateProfile }}>
+    <ProfileContext.Provider value={value}>
       {children}
     </ProfileContext.Provider>
   )

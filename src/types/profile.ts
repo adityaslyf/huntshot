@@ -17,16 +17,18 @@ export type Education = {
   achievements?: string[];
 };
 
+export type EmploymentType = 'full-time' | 'part-time' | 'contract' | 'internship' | 'freelance'
+
 export type Experience = {
   id: string;
   company: string;
   role: string;
   startDate: string;
   endDate: string;
-  description: string;
-  technologies: string[];
   current: boolean;
-  employmentType?: "full-time" | "part-time" | "contract" | "internship";
+  description: string;
+  employmentType: EmploymentType;
+  technologies: string[];
   highlights?: string[];
   achievements?: string[];
   responsibilities?: string[];
@@ -81,8 +83,8 @@ export interface BasicInfo {
 
 export interface Profile {
   id?: string;
-  name?: string;
-  title?: string;
+  user_id: string;
+  full_name?: string;
   bio?: string;
   email?: string;
   phone?: string;
@@ -100,10 +102,9 @@ export interface Profile {
   certifications?: Certificate[];
   languages?: string[];
   socialLinks?: SocialLink[];
-  // publications?: Publication[];
-  // volunteering?: Volunteering[];
+  created_at?: string;
+  updated_at?: string;
   interests?: string[];
-  // references?: Reference[];
 }
 
 export interface Skill {
@@ -113,6 +114,7 @@ export interface Skill {
 }
 
 export const initialProfile: Profile = {
+  user_id: "",
   basic_info: {
     name: "",
     title: "",
@@ -150,4 +152,11 @@ export type SectionUpdate<T> = {
 };
 
 export type ParsedResume = Partial<Profile>;
+
+// interface User {
+//   id: string;
+//   email: string;
+//   user_id: string;
+//   hasProfile?: boolean;
+// }
 

@@ -6,6 +6,8 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { ExclamationTriangleIcon } from "@radix-ui/react-icons";
 import { Separator } from "@/components/ui/separator";
+import { useAuth } from "@/hooks/user-auth";
+import { Loader } from "@/components/ui/loader";
 
 interface LoginPageProps {
   setAuthToken: (token: string) => void;
@@ -24,15 +26,22 @@ interface AuthError {
 const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLogout }) => {
   const navigate = useNavigate();
   const { authenticate, isLoggedIn } = useOkto();
+  const { userDetails } = useAuth();
   const [error, setError] = useState<string>("");
+  const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   useEffect(() => {
     if (isLoggedIn) {
-      navigate('/');
+      if (userDetails?.hasProfile) {
+        navigate('/profile');
+      } else {
+        navigate('/');
+      }
     }
-  }, [isLoggedIn, navigate]);
+  }, [isLoggedIn, userDetails, navigate]);
 
   const handleGoogleLogin = async (credentialResponse: CredentialResponse) => {
+    setIsAuthenticating(true);
     try {
       const idToken = credentialResponse.credential;
       if (!idToken) {
@@ -51,6 +60,8 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
       });
     } catch (err) {
       setError("Google login failed: " + (err instanceof Error ? err.message : "Unknown error"));
+    } finally {
+      setIsAuthenticating(false);
     }
   };
 
@@ -79,13 +90,17 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
               <div className="w-full flex justify-center">
                 {!authToken ? (
                   <div className="google-login-container">
-                    <GoogleLogin
-                      onSuccess={handleGoogleLogin}
-                      onError={() => setError("Login Failed")}
-                      useOneTap={false}
-                      theme="filled_black"
-                      shape="pill"
-                    />
+                    {isAuthenticating ? (
+                      <Loader variant="spinner" size="md" text="Authenticating..." />
+                    ) : (
+                      <GoogleLogin
+                        onSuccess={handleGoogleLogin}
+                        onError={() => setError("Login Failed")}
+                        useOneTap={false}
+                        theme="filled_black"
+                        shape="pill"
+                      />
+                    )}
                   </div>
                 ) : (
                   <button
