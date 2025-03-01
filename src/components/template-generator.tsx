@@ -11,10 +11,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Card } from '@/components/ui/card'
-import { Loader2, Copy} from 'lucide-react'
+import { Loader2, Copy } from 'lucide-react'
 import { TemplateEditor } from './template-editor'
-import {  TemplateType } from '@/lib/template-service'
+import { TemplateType } from '@/lib/template-service'
 import { showToast } from '@/lib/toast-utils'
+import { EmailSenderDialog } from './email-sender-dialog'
 
 const TEMPLATE_TYPES: { label: string; value: TemplateType }[] = [
   { label: 'Cold Email', value: 'cold-email' },
@@ -102,6 +103,11 @@ export function TemplateGenerator() {
                 >
                   <Copy className="h-4 w-4" />
                 </Button>
+                <EmailSenderDialog 
+                  subject={template.subject}
+                  body={template.body}
+                  company={template.company}
+                />
                 <TemplateEditor
                   template={template}
                   onSave={(updated) => updateTemplate(updated)}

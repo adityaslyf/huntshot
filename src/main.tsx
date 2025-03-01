@@ -16,6 +16,7 @@ import { ResumeProvider } from './contexts/resume-context'
 import { ProfileProvider } from './contexts/profile-context'
 import { GoogleOAuthProvider, useGoogleLogin, CodeResponse } from '@react-oauth/google'
 import { OktoProvider, BuildType, AuthType } from 'okto-sdk-react'
+import { GmailSender } from './components/GmailSender'
 import "./index.css"
 import axios from 'axios'
 
@@ -107,6 +108,12 @@ function AppWithAuth() {
                   <ProtectedRoute>
                     <ProfileWrapper />
                   </ProtectedRoute>
+                } 
+              />
+              <Route 
+                path="/email" 
+                element={
+                    <GmailSender />
                 } 
               />
             </Routes>
