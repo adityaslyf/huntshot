@@ -79,6 +79,9 @@ export default {
                 'wave': 'wave 1.2s linear infinite',
                 'bounce-delay': 'bounce 1s infinite'
             },
+            fontFamily: {
+                sans: ['Satoshi', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            },
         },
     },
     plugins: [
