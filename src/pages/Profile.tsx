@@ -12,9 +12,9 @@ import { useToast } from "@/components/ui/custom-toaster"
 import { supabase } from '@/lib/supabase'
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { useAuth } from "@/hooks/user-auth"
-import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Settings, Bell, Search, Mail } from 'lucide-react'
+import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Mail } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
+// import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 
 export default function ProfilePage() {
@@ -379,7 +379,7 @@ export default function ProfilePage() {
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
         {/* Top Bar */}
-        <div className="h-16 border-b border-border/50 bg-card/50 backdrop-blur-sm fixed top-0 right-0 left-72 z-10 flex items-center justify-between px-6">
+        {/* <div className="h-16 border-b border-border/50 bg-card/50 backdrop-blur-sm fixed top-0 right-0 left-72 z-10 flex items-center justify-between px-6">
           <div className="flex items-center flex-1 max-w-xl">
             <Search className="h-4 w-4 text-muted-foreground absolute ml-3" />
             <Input 
@@ -395,7 +395,7 @@ export default function ProfilePage() {
               <Settings className="h-4 w-4" />
             </Button>
           </div>
-        </div>
+        </div> */}
 
         {/* Content Area */}
         <div className="p-6 pt-24 max-w-5xl mx-auto">
