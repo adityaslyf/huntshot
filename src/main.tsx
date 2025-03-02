@@ -110,12 +110,12 @@ function AppWithAuth() {
                   </ProtectedRoute>
                 } 
               />
-              <Route 
+              {/* <Route 
                 path="/email" 
                 element={
                     <GmailSender />
                 } 
-              />
+              /> */}
             </Routes>
           </BrowserRouter>
         </ProfileProvider>
