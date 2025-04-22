@@ -16,6 +16,8 @@ import { ResumeProvider } from './contexts/resume-context'
 import { ProfileProvider } from './contexts/profile-context'
 import { GoogleOAuthProvider, useGoogleLogin, CodeResponse } from '@react-oauth/google'
 import { OktoProvider, BuildType } from 'okto-sdk-react'
+import PrivacyPolicy from './pages/PrivacyPolicy'
+import TermsOfService from './pages/TermsOfService'
 import "./index.css"
 import axios from 'axios'
 
@@ -108,6 +110,8 @@ function AppWithAuth() {
                   </ProtectedRoute>
                 } 
               />
+              <Route path="/privacy" element={<PrivacyPolicy />} />
+              <Route path="/terms" element={<TermsOfService />} />
               {/* <Route 
                 path="/email" 
                 element={

@@ -73,7 +73,7 @@ export default function ProfilePage() {
 
   useEffect(() => {
     const checkAuth = async () => {
-      const { data: { session } } = await .auth.getSession()
+      const { data: { session } } = await supabase.auth.getSession()
       console.log('[Profile] Current auth session:', {
         userId: session?.user?.id,
         matchesUserDetails: session?.user?.id === userDetails?.user_id
