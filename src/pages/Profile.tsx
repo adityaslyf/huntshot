@@ -12,19 +12,22 @@ import { useToast } from "@/components/ui/custom-toaster"
 import { supabase } from '@/lib/supabase'
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { useAuth } from "@/hooks/user-auth"
-import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Settings, Bell, Search, Mail } from 'lucide-react'
+import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Settings, Bell, Search, Mail, LogOut } from 'lucide-react'
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Tabs, TabsContent } from '@/components/ui/tabs'
+import { useNavigate } from 'react-router-dom'
+import { motion } from 'framer-motion'
 
 export default function ProfilePage() {
   const { parsedResume } = useResume()
-  const { userDetails, fetchUserDetails } = useAuth()
+  const { userDetails, fetchUserDetails, signOut } = useAuth()
   const [isLoading, setIsLoading] = useState(true)
   const { profile, updateProfile } = useProfile()
   const { toast } = useToast()
   const [activeTab, setActiveTab] = useState('basic-info')
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const navigate = useNavigate()
   const [alertInfo, setAlertInfo] = useState<{
     show: boolean;
     type: 'success' | 'error';
@@ -234,6 +237,15 @@ export default function ProfilePage() {
       }, 5000);
     }
   }
+  
+  const handleLogout = () => {
+    signOut();
+    navigate('/login');
+    toast({
+      title: "Logged out",
+      description: "You have been logged out successfully",
+    });
+  };
 
   if (isLoading) {
     return <LoadingSpinner />
@@ -358,21 +370,43 @@ export default function ProfilePage() {
               </div>
             </div>
           )}
-          <Button 
-            className="w-full relative group"
-            onClick={handleSave}
-            variant="default"
-          >
-            <Save className="h-4 w-4 mr-2" />
-            {!isSidebarCollapsed && (
-              <>
-                Save Changes
-                <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                  Click to save your changes
-                </div>
-              </>
-            )}
-          </Button>
+          <div className="space-y-4">
+            <Button 
+              className="w-full relative group"
+              onClick={handleSave}
+              variant="default"
+            >
+              <Save className="h-4 w-4 mr-2" />
+              {!isSidebarCollapsed && (
+                <>
+                  Save Changes
+                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Click to save your changes
+                  </div>
+                </>
+              )}
+            </Button>
+
+            <Button 
+              className="w-full relative group"
+              onClick={handleLogout}
+              variant="outline"
+            >
+              <motion.div
+                initial={{ rotate: 0 }}
+                whileHover={{ rotate: 90 }}
+                transition={{ duration: 0.3 }}
+                className="mr-2 text-destructive"
+              >
+                <LogOut className="h-4 w-4" />
+              </motion.div>
+              {!isSidebarCollapsed && (
+                <>
+                  <span className="text-destructive">Logout</span>
+                </>
+              )}
+            </Button>
+          </div>
         </div>
       </div>
 
@@ -393,6 +427,18 @@ export default function ProfilePage() {
             </Button>
             <Button variant="ghost" size="icon">
               <Settings className="h-4 w-4" />
+            </Button>
+            <Button 
+              variant="ghost" 
+              size="icon"
+              onClick={handleLogout}
+              className="text-destructive hover:bg-destructive/10 relative group"
+            >
+              <LogOut className="h-4 w-4" />
+              <span className="sr-only">Logout</span>
+              <div className="absolute hidden group-hover:block right-0 top-full mt-1 p-1 bg-card/80 backdrop-blur-md border border-border/50 text-xs w-auto whitespace-nowrap px-2 py-1 rounded-md">
+                Sign out
+              </div>
             </Button>
           </div>
         </div>
