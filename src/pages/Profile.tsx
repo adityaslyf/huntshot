@@ -15,7 +15,7 @@ import { useAuth } from "@/hooks/user-auth"
 import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Mail, LogOut } from 'lucide-react'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export default function ProfilePage() {
   const { parsedResume } = useResume()
@@ -246,33 +246,58 @@ export default function ProfilePage() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner />
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background/90 to-primary/5">
+        <div className="relative">
+          <div className="absolute -inset-4 rounded-full bg-gradient-to-r from-primary/20 to-primary/5 blur-xl animate-pulse"></div>
+          <LoadingSpinner />
+        </div>
+      </div>
+    )
   }
 
   return (
-    <div className="min-h-screen bg-background flex">
+    <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#131f38] flex overflow-hidden">
       {/* Sidebar */}
-      <div className={`fixed left-0 top-0 h-full bg-card border-r border-border/50 transition-all duration-300 
-        ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}>
+      <motion.div 
+        className={`fixed left-0 top-0 h-full bg-[#111827]/90 backdrop-blur-md shadow-xl z-10 transition-all duration-300 
+          ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}
+        initial={{ x: -20, opacity: 0.8 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
         
         {/* Sidebar Header */}
-        <div className="p-4 border-b border-border/50">
+        <div className="p-5 border-b border-white/5 bg-gradient-to-r from-[#111827]/90 to-[#111827]/60">
           <div className="flex items-center justify-between">
             {!isSidebarCollapsed && (
-              <div className="flex items-center space-x-3">
+              <motion.div 
+                className="flex items-center space-x-3"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+              >
+                <div className="relative group">
+                  <div className="absolute -inset-1.5 bg-gradient-to-r from-blue-500/20 via-blue-400/10 to-blue-500/5 rounded-full blur opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="relative w-10 h-10 rounded-full bg-gradient-to-br from-blue-500/90 to-blue-600/70 flex items-center justify-center text-white font-semibold ring-2 ring-[#111827]">
+                    {profile?.basic_info?.name?.[0]?.toUpperCase() || userDetails?.email?.[0]?.toUpperCase() || 'U'}
+                  </div>
+                  <div className="absolute bottom-0 right-0 w-3 h-3 bg-green-500 rounded-full ring-2 ring-[#111827]"></div>
+                </div>
                 <div>
-                  <h3 className="font-medium">
+                  <h3 className="font-medium text-white/90">
                     {profile?.basic_info?.name || userDetails?.email?.split('@')[0] || 'User'}
                   </h3>
-                  <p className="text-xs text-muted-foreground">
-                    {profile?.basic_info?.title || 'Profile'}
+                  <p className="text-xs text-blue-400/80">
+                    {profile?.basic_info?.title || 'Complete your profile'}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             )}
             <Button 
               variant="ghost" 
               size="icon"
+              className="hover:bg-blue-500/10 rounded-full text-white/80"
               onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
             >
               <ChevronLeft className={`h-4 w-4 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
@@ -281,7 +306,10 @@ export default function ProfilePage() {
         </div>
 
         {/* Navigation */}
-        <div className="p-3 space-y-2">
+        <div className="p-4 space-y-2">
+          <div className={`mb-6 ${isSidebarCollapsed ? 'text-center' : 'px-2'}`}>
+            {!isSidebarCollapsed && <p className="text-xs text-gray-400 font-medium uppercase tracking-wider opacity-70">Profile Sections</p>}
+          </div>
           <NavButton
             icon={<User />}
             label="Basic Info"
@@ -317,6 +345,10 @@ export default function ProfilePage() {
             isCollapsed={isSidebarCollapsed}
             onClick={() => setActiveTab('achievements')}
           />
+          <div className="my-6 border-t border-white/5"></div>
+          <div className={`mb-2 ${isSidebarCollapsed ? 'text-center' : 'px-2'}`}>
+            {!isSidebarCollapsed && <p className="text-xs text-gray-400 font-medium uppercase tracking-wider opacity-70">Options</p>}
+          </div>
           <NavButton
             icon={<Mail />}
             label="Templates"
@@ -327,103 +359,178 @@ export default function ProfilePage() {
         </div>
 
         {/* Bottom Actions */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-border/50">
-          {alertInfo && alertInfo.show && (
-            <div 
-              className={`absolute bottom-full left-4 right-4 mb-2 p-3 rounded-lg shadow-lg transition-all duration-300 ${
-                alertInfo.type === 'success' 
-                  ? 'bg-green-100 border border-green-400 text-green-800'
-                  : 'bg-red-100 border border-red-400 text-red-800'
-              }`}
-            >
-              <div className="flex items-center justify-between">
-                <div className="flex items-center">
-                  {alertInfo.type === 'success' ? (
-                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+        <div className="absolute bottom-0 left-0 right-0 p-5 border-t border-white/5 bg-gradient-to-t from-[#111827]/90 to-[#111827]/60">
+          <AnimatePresence>
+            {alertInfo && alertInfo.show && (
+              <motion.div 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                className={`absolute bottom-full left-4 right-4 mb-4 p-3 rounded-lg shadow-xl backdrop-blur-sm ${
+                  alertInfo.type === 'success' 
+                    ? 'bg-green-500/10 border border-green-500/20 text-green-400'
+                    : 'bg-red-500/10 border border-red-500/20 text-red-400'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    {alertInfo.type === 'success' ? (
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                      </svg>
+                    ) : (
+                      <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                      </svg>
+                    )}
+                    <span className="font-medium text-sm">{alertInfo.message}</span>
+                  </div>
+                  <button 
+                    onClick={() => setAlertInfo(null)}
+                    className="text-sm hover:text-white/90 transition-colors"
+                  >
+                    <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                     </svg>
-                  ) : (
-                    <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                    </svg>
-                  )}
-                  <span className="font-medium">{alertInfo.message}</span>
+                  </button>
                 </div>
-                <button 
-                  onClick={() => setAlertInfo(null)}
-                  className="text-sm hover:text-gray-600"
-                >
-                  <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                    <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
-                  </svg>
-                </button>
-              </div>
-            </div>
-          )}
-          <div className="space-y-4">
+              </motion.div>
+            )}
+          </AnimatePresence>
+          <div className="space-y-3">
             <Button 
-              className="w-full relative group"
+              className="w-full relative group overflow-hidden bg-blue-500 hover:bg-blue-600 text-white"
               onClick={handleSave}
-              variant="default"
             >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-blue-400/80 via-blue-500/60 to-blue-400/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md -z-10"></span>
+              <span className="absolute inset-0 w-0 bg-white/10 h-full group-hover:w-full transition-all duration-700 ease-out rounded-md -z-10"></span>
               <Save className="h-4 w-4 mr-2" />
               {!isSidebarCollapsed && (
                 <>
                   Save Changes
-                  <div className="absolute -top-10 left-1/2 transform -translate-x-1/2 bg-primary text-primary-foreground px-3 py-1 rounded-md text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                    Click to save your changes
-                  </div>
+                  <span className="absolute right-3 top-1/2 transform -translate-y-1/2 opacity-0 group-hover:opacity-100 transition-all duration-300">
+                    ✓
+                  </span>
                 </>
               )}
             </Button>
 
             <Button 
-              className="w-full relative group"
+              className="w-full relative group overflow-hidden bg-transparent border border-red-500/50 text-red-400 hover:text-red-300"
               onClick={handleLogout}
               variant="outline"
             >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-red-500/10 via-red-400/5 to-red-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-md"></span>
               <motion.div
-                initial={{ rotate: 0 }}
                 whileHover={{ rotate: 90 }}
                 transition={{ duration: 0.3 }}
-                className="mr-2 text-destructive"
+                className="mr-2"
               >
                 <LogOut className="h-4 w-4" />
               </motion.div>
               {!isSidebarCollapsed && (
-                <>
-                  <span className="text-destructive">Logout</span>
-                </>
+                <span className="group-hover:font-medium transition-all">Logout</span>
               )}
             </Button>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
         {/* Content Area */}
-        <div className="p-6 pt-24 max-w-5xl mx-auto">
-          <Tabs value={activeTab} onValueChange={setActiveTab}>
-            <TabsContent value="basic-info">
-              <BasicInfoSection />
-            </TabsContent>
-            <TabsContent value="experience">
-              <ExperienceSection />
-            </TabsContent>
-            <TabsContent value="education">
-              <EducationSection />
-            </TabsContent>
-            <TabsContent value="projects">
-              <ProjectsSection />
-            </TabsContent>
-            <TabsContent value="achievements">
-              <AchievementsSection />
-            </TabsContent>
-            <TabsContent value="templates">
-              <TemplatesSection />
-            </TabsContent>
-          </Tabs>
+        <div className="p-8 pt-20 max-w-5xl mx-auto">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ duration: 0.3 }}
+            className="backdrop-blur-sm p-6 relative"
+          >
+            <div className="absolute inset-0  -z-10 rounded-xl"></div>
+            <Tabs value={activeTab} onValueChange={setActiveTab}>
+              <TabsContent value="basic-info" className="animate-in fade-in-50 slide-in-from-left-2 duration-300 text-white">
+                <div className="dark-mode-section" style={{
+                  '--input-bg': 'rgba(19, 31, 56, 0.7)',
+                  '--border-color': 'rgba(59, 130, 246, 0.2)',
+                  '--text-color': 'white'
+                } as React.CSSProperties}>
+                  <style dangerouslySetInnerHTML={{ 
+                    __html: `
+                    .dark-mode-section label {
+                      color: white !important;
+                    }
+                    .dark-mode-section input, 
+                    .dark-mode-section textarea {
+                      background-color: rgba(19, 31, 56, 0.7) !important;
+                      border-color: rgba(59, 130, 246, 0.2) !important;
+                      color: white !important;
+                      border-radius: 0.375rem !important;
+                    }
+                    .dark-mode-section input:focus, 
+                    .dark-mode-section textarea:focus {
+                      outline: none !important;
+                      box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.8) !important;
+                    }
+                    .dark-mode-section h2 {
+                      color: white !important;
+                    }
+                  `}} />
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Basic Information</h2>
+                    <p className="text-sm text-blue-400/80">Add your personal details to complete your profile</p>
+                  </div>
+                  <BasicInfoSection />
+                </div>
+              </TabsContent>
+              <TabsContent value="experience" className="animate-in fade-in-50 slide-in-from-left-2 duration-300">
+                <div className="dark-mode-section">
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Work Experience</h2>
+                    <p className="text-sm text-blue-400/80">Add your work history and professional experience</p>
+                  </div>
+                  <ExperienceSection />
+                </div>
+              </TabsContent>
+              <TabsContent value="education" className="animate-in fade-in-50 slide-in-from-left-2 duration-300">
+                <div className="dark-mode-section">
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Education</h2>
+                    <p className="text-sm text-blue-400/80">Add your educational background and qualifications</p>
+                  </div>
+                  <EducationSection />
+                </div>
+              </TabsContent>
+              <TabsContent value="projects" className="animate-in fade-in-50 slide-in-from-left-2 duration-300">
+                <div className="dark-mode-section">
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Projects</h2>
+                    <p className="text-sm text-blue-400/80">Add your personal and professional projects</p>
+                  </div>
+                  <ProjectsSection />
+                </div>
+              </TabsContent>
+              <TabsContent value="achievements" className="animate-in fade-in-50 slide-in-from-left-2 duration-300">
+                <div className="dark-mode-section">
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Achievements</h2>
+                    <p className="text-sm text-blue-400/80">Add your certifications, awards and accomplishments</p>
+                  </div>
+                  <AchievementsSection />
+                </div>
+              </TabsContent>
+              <TabsContent value="templates" className="animate-in fade-in-50 slide-in-from-left-2 duration-300">
+                <div className="dark-mode-section">
+                  <div className="space-y-2 mb-6">
+                    <h2 className="text-lg font-medium text-white">Resume Templates</h2>
+                    <p className="text-sm text-blue-400/80">Choose and customize your resume template</p>
+                  </div>
+                  <TemplatesSection />
+                </div>
+              </TabsContent>
+            </Tabs>
+          </motion.div>
         </div>
       </div>
     </div>
@@ -441,14 +548,55 @@ interface NavButtonProps {
 
 function NavButton({ icon, label, isActive, isCollapsed, onClick }: NavButtonProps) {
   return (
-    <Button
-      variant={isActive ? "secondary" : "ghost"}
-      className={`w-full justify-start ${isActive ? 'bg-primary/10' : ''}`}
-      onClick={onClick}
+    <motion.div 
+      whileHover={{ scale: 1.02 }} 
+      whileTap={{ scale: 0.98 }}
+      className="relative"
     >
-      <span className="h-4 w-4">{icon}</span>
-      {!isCollapsed && <span className="ml-3">{label}</span>}
-    </Button>
+      {isActive && !isCollapsed && (
+        <motion.div 
+          layoutId="activeIndicator"
+          className="absolute left-0 top-0 w-1 h-full bg-primary rounded-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        />
+      )}
+      
+      <Button
+        variant={isActive ? "secondary" : "ghost"}
+        className={`w-full justify-start ${isActive 
+          ? 'bg-primary/10 text-primary pl-4' 
+          : 'hover:bg-muted/30 text-foreground/80 hover:text-foreground'}`}
+        onClick={onClick}
+      >
+        <motion.span 
+          className={`${isActive ? 'text-primary' : ''}`}
+          initial={{ scale: 1 }}
+          animate={isActive ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+          transition={{ duration: 0.3 }}
+        >
+          {icon}
+        </motion.span>
+        {!isCollapsed && (
+          <motion.span 
+            className={`ml-3 font-medium ${isActive ? 'text-primary' : ''}`}
+            initial={{ opacity: 0, x: -5 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            {label}
+          </motion.span>
+        )}
+        
+        {isActive && isCollapsed && (
+          <motion.div 
+            layoutId="activeDot"
+            className="absolute right-2 w-1.5 h-1.5 rounded-full bg-primary"
+          />
+        )}
+      </Button>
+    </motion.div>
   )
 }
 
