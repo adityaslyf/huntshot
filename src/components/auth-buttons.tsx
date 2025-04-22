@@ -1,6 +1,6 @@
 import { Button } from "./ui/button"
 import { useAuth } from "@/hooks/user-auth"
-import { Loader2, User } from "lucide-react"
+import { Loader2, LogOut, Mail, UserCircle, ChevronDown } from "lucide-react"
 import { useEffect } from "react"
 import {
   DropdownMenu,
@@ -10,6 +10,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
+import { motion, AnimatePresence } from "framer-motion"
+import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
 
 export function AuthButtons() {
   const { 
@@ -35,49 +37,102 @@ export function AuthButtons() {
 
   if (!isLoaded) {
     return (
-      <Button variant="ghost" disabled>
-        <Loader2 className="h-4 w-4 animate-spin" />
-      </Button>
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      >
+        <Button variant="glass" disabled className="h-9 px-3">
+          <Loader2 className="h-4 w-4 animate-spin mr-2" />
+          Loading
+        </Button>
+      </motion.div>
     )
   }
 
   return (
-    <div className="flex items-center gap-4">
+    <AnimatePresence mode="wait">
       {!isSignedIn ? (
-        <Button variant="default" onClick={handleSignIn}>
-          Sign In
-        </Button>
+        <motion.div
+          key="signin"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
+          <Button 
+            variant="gradient" 
+            onClick={handleSignIn}
+            className="font-medium"
+            leftIcon={<UserCircle className="w-4 h-4" />}
+          >
+            Sign In
+          </Button>
+        </motion.div>
       ) : (
-        <div className="flex items-center gap-2">
+        <motion.div 
+          key="user-menu"
+          className="flex items-center gap-2"
+          initial={{ opacity: 0, y: -10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 10 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button 
-                variant="ghost" 
-                size="icon"
-                className="rounded-full"
+                variant="glass" 
+                className="rounded-full pl-3 pr-4 h-9 gap-2"
               >
-                <User className="h-6 w-6" />
+                <Avatar className="h-6 w-6">
+                  <AvatarImage src="" alt={userDetails?.email || 'User'} />
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    {userDetails?.email?.[0]?.toUpperCase() || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <span className="text-sm font-medium max-w-[80px] truncate">
+                  {userDetails?.email?.split('@')[0] || 'User'}
+                </span>
+                <ChevronDown className="h-4 w-4 opacity-50" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent className="w-56">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className="flex flex-col items-start gap-1">
-                <span className="text-sm font-medium">Email</span>
-                <span className="text-xs text-muted-foreground">{userDetails?.email}</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="flex flex-col items-start gap-1">
-                <span className="text-sm font-medium">User ID</span>
-                <span className="text-xs text-muted-foreground">{userDetails?.user_id}</span>
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem onClick={signOut} className="text-red-600">
-                Sign Out
-              </DropdownMenuItem>
+            <DropdownMenuContent className="w-64 glass-card p-1 border-0 shadow-xl" align="end">
+              <DropdownMenuLabel className="flex items-center gap-2 p-4 border-b border-border/10">
+                <Avatar className="h-10 w-10">
+                  <AvatarImage src="" alt={userDetails?.email || 'User'} />
+                  <AvatarFallback className="bg-primary/10 text-primary">
+                    {userDetails?.email?.[0]?.toUpperCase() || 'U'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col">
+                  <span className="font-medium">Account</span>
+                  <span className="text-xs text-muted-foreground">Manage your settings</span>
+                </div>
+              </DropdownMenuLabel>
+              <div className="p-2">
+                <DropdownMenuItem className="flex gap-2 rounded-lg mb-1 cursor-pointer">
+                  <Mail className="h-4 w-4 text-primary" />
+                  <span className="text-sm">{userDetails?.email}</span>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="flex gap-2 rounded-lg cursor-pointer">
+                  <UserCircle className="h-4 w-4 text-primary" />
+                  <span className="text-sm truncate">{userDetails?.user_id}</span>
+                </DropdownMenuItem>
+              </div>
+              <DropdownMenuSeparator className="my-1 bg-border/10" />
+              <div className="p-2">
+                <DropdownMenuItem 
+                  onClick={signOut} 
+                  className="flex gap-2 rounded-lg text-destructive focus:bg-destructive/5 cursor-pointer"
+                >
+                  <LogOut className="h-4 w-4" />
+                  <span>Sign Out</span>
+                </DropdownMenuItem>
+              </div>
             </DropdownMenuContent>
           </DropdownMenu>
-        </div>
+        </motion.div>
       )}
-    </div>
+    </AnimatePresence>
   )
 }

@@ -58,6 +58,14 @@ export default {
                 lg: "var(--radius)",
                 md: "calc(var(--radius) - 2px)",
                 sm: "calc(var(--radius) - 4px)",
+                "2xl": "1rem",
+                "3xl": "1.5rem",
+                "4xl": "2rem",
+            },
+            scale: {
+                '102': '1.02',
+                '103': '1.03',
+                '105': '1.05',
             },
             keyframes: {
                 "accordion-down": {
@@ -71,19 +79,49 @@ export default {
                 wave: {
                     '0%, 100%': { transform: 'scaleY(1)' },
                     '50%': { transform: 'scaleY(0.5)' },
+                },
+                float: {
+                    '0%, 100%': { transform: 'translateY(0)' },
+                    '50%': { transform: 'translateY(-10px)' },
+                },
+                pulse: {
+                    '0%, 100%': { opacity: 1 },
+                    '50%': { opacity: 0.5 },
+                },
+                shimmer: {
+                    '0%': { backgroundPosition: '-1000px 0' },
+                    '100%': { backgroundPosition: '1000px 0' },
+                },
+                morphBlob: {
+                    '0%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
+                    '50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+                    '100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
                 }
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
                 'wave': 'wave 1.2s linear infinite',
-                'bounce-delay': 'bounce 1s infinite'
+                'bounce-delay': 'bounce 1s infinite',
+                'float': 'float 3s ease-in-out infinite',
+                'shimmer': 'shimmer 2s linear infinite',
+                'morph': 'morphBlob 8s ease-in-out infinite',
+            },
+            backgroundImage: {
+                'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+                'gradient-conic': 'conic-gradient(from var(--angle), var(--tw-gradient-stops))',
+                'gradient-mesh': 'linear-gradient(to right top, #051937, #004d7a, #008793, #00bf72, #a8eb12)',
+            },
+            boxShadow: {
+                'neon': '0 0 5px theme(colors.primary.DEFAULT), 0 0 20px theme(colors.primary.DEFAULT)',
+                'neon-lg': '0 0 10px theme(colors.primary.DEFAULT), 0 0 30px theme(colors.primary.DEFAULT)',
+                'inner-glow': 'inset 0 0 20px rgba(255,255,255,0.5)',
             },
         },
     },
     plugins: [
         tailwindcssAnimate,
-        function ({ addUtilities }) {
+        function ({ addUtilities, matchUtilities, theme }) {
             const newUtilities = {}
             for (let i = 1; i <= 10; i++) {
                 newUtilities[`.animation-delay-${i * 100}`] = {
@@ -91,6 +129,23 @@ export default {
                 }
             }
             addUtilities(newUtilities)
+            
+            // Add a plugin for variable properties
+            matchUtilities(
+                {
+                    'bg-gradient-to': (value) => ({
+                        'background-image': `linear-gradient(to ${value}, var(--tw-gradient-stops))`,
+                    }),
+                },
+                { values: theme('bgGradientDirections', {}) }
+            )
+            
+            // Add CSS variables for custom properties
+            addUtilities({
+                ':root': {
+                    '--angle': '0deg',
+                }
+            })
         },
     ],
 }
