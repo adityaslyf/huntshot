@@ -1,5 +1,4 @@
 import { TextField, TextAreaField } from "@/components/ui/form"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
 import { useProfile } from "@/contexts/profile-context"
 
 export function BasicInfoSection() {

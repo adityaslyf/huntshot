@@ -1,6 +1,5 @@
 import { Profile } from "@/types/profile"
 import { TextField, TextAreaField } from "../sections/form-fields"
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avtar"
 
 interface BasicInfoSectionProps {
   profile: Profile

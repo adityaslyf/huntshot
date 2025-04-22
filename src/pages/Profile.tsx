@@ -12,9 +12,7 @@ import { useToast } from "@/components/ui/custom-toaster"
 import { supabase } from '@/lib/supabase'
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { useAuth } from "@/hooks/user-auth"
-import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Settings, Bell, Search, Mail, LogOut } from 'lucide-react'
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
+import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Mail, LogOut } from 'lucide-react'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
 import { motion } from 'framer-motion'
