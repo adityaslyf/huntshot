@@ -412,37 +412,6 @@ export default function ProfilePage() {
 
       {/* Main Content */}
       <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
-        {/* Top Bar */}
-        <div className="h-16 border-b border-border/50 bg-card/50 backdrop-blur-sm fixed top-0 right-0 left-72 z-10 flex items-center justify-between px-6">
-          <div className="flex items-center flex-1 max-w-xl">
-            <Search className="h-4 w-4 text-muted-foreground absolute ml-3" />
-            <Input 
-              placeholder="Search..." 
-              className="pl-10 bg-background/50"
-            />
-          </div>
-          <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="icon">
-              <Bell className="h-4 w-4" />
-            </Button>
-            <Button variant="ghost" size="icon">
-              <Settings className="h-4 w-4" />
-            </Button>
-            <Button 
-              variant="ghost" 
-              size="icon"
-              onClick={handleLogout}
-              className="text-destructive hover:bg-destructive/10 relative group"
-            >
-              <LogOut className="h-4 w-4" />
-              <span className="sr-only">Logout</span>
-              <div className="absolute hidden group-hover:block right-0 top-full mt-1 p-1 bg-card/80 backdrop-blur-md border border-border/50 text-xs w-auto whitespace-nowrap px-2 py-1 rounded-md">
-                Sign out
-              </div>
-            </Button>
-          </div>
-        </div>
-
         {/* Content Area */}
         <div className="p-6 pt-24 max-w-5xl mx-auto">
           <Tabs value={activeTab} onValueChange={setActiveTab}>
