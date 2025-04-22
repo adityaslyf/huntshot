@@ -18,6 +18,7 @@ import { GoogleOAuthProvider, useGoogleLogin, CodeResponse } from '@react-oauth/
 import { OktoProvider, BuildType } from 'okto-sdk-react'
 import PrivacyPolicy from './pages/PrivacyPolicy'
 import TermsOfService from './pages/TermsOfService'
+import { AuthTypeValues } from './lib/okto-utils'
 import "./index.css"
 import axios from 'axios'
 
@@ -87,6 +88,7 @@ function AppWithAuth() {
       apiKey={OKTO_CLIENT_API_KEY}
       buildType={BuildType.SANDBOX}
       gAuthCb={handleGAuthCb}
+      primaryAuth={AuthTypeValues.EMAIL}
       brandData={brandData}
     >
       <ResumeProvider>
