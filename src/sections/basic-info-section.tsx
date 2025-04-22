@@ -10,26 +10,6 @@ interface BasicInfoSectionProps {
 export function BasicInfoSection({ profile, onUpdate }: BasicInfoSectionProps) {
   return (
     <div className="space-y-8">
-      <div className="flex items-center gap-6">
-        <Avatar className="h-24 w-24">
-          <AvatarImage src={profile.basic_info.avatar} alt={profile.basic_info.name} />
-          <AvatarFallback>
-            {profile.basic_info.name?.split(' ').map(n => n[0]).join('')}
-          </AvatarFallback>
-        </Avatar>
-        <div className="flex-1 space-y-4">
-          <TextField
-            label="Full Name"
-            value={profile.basic_info.name}
-            onChange={value => onUpdate({ basic_info: { ...profile.basic_info, name: value } })}
-          />
-          <TextField
-            label="Profile Title"
-            value={profile.basic_info.title}
-            onChange={value => onUpdate({ basic_info: { ...profile.basic_info, title: value } })}
-          />
-        </div>
-      </div>
 
       <TextAreaField
         label="Bio"

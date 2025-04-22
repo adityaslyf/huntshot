@@ -262,14 +262,6 @@ export default function ProfilePage() {
           <div className="flex items-center justify-between">
             {!isSidebarCollapsed && (
               <div className="flex items-center space-x-3">
-                <Avatar className="h-10 w-10">
-                  <AvatarImage src={profile?.basic_info?.avatar} />
-                  <AvatarFallback>
-                    {profile?.basic_info?.name 
-                      ? profile.basic_info.name.split(' ').map(n => n[0]).join('').toUpperCase()
-                      : userDetails?.email?.slice(0, 2).toUpperCase() || 'U'}
-                  </AvatarFallback>
-                </Avatar>
                 <div>
                   <h3 className="font-medium">
                     {profile?.basic_info?.name || userDetails?.email?.split('@')[0] || 'User'}
