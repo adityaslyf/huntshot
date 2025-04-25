@@ -88,9 +88,22 @@ export default {
                     '0%, 100%': { opacity: 1 },
                     '50%': { opacity: 0.5 },
                 },
+                'pulse-slow': {
+                    '0%, 100%': { opacity: 0.8 },
+                    '50%': { opacity: 0.4 },
+                },
                 shimmer: {
                     '0%': { backgroundPosition: '-1000px 0' },
                     '100%': { backgroundPosition: '1000px 0' },
+                },
+                'shine-slow': {
+                    '100%': { 
+                        transform: 'translateX(100%)',
+                    },
+                },
+                'float-slow': {
+                    '0%, 100%': { transform: 'translateY(0) scale(1)' },
+                    '50%': { transform: 'translateY(-15px) scale(1.05)' },
                 },
                 morphBlob: {
                     '0%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
@@ -104,7 +117,10 @@ export default {
                 'wave': 'wave 1.2s linear infinite',
                 'bounce-delay': 'bounce 1s infinite',
                 'float': 'float 3s ease-in-out infinite',
+                'float-slow': 'float-slow 8s ease-in-out infinite',
+                'pulse-slow': 'pulse-slow 6s ease-in-out infinite',
                 'shimmer': 'shimmer 2s linear infinite',
+                'shine-slow': 'shine-slow 6s ease-in-out infinite',
                 'morph': 'morphBlob 8s ease-in-out infinite',
             },
             backgroundImage: {

@@ -72,9 +72,23 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen flex items-center justify-center bg-background">
+      {/* Background decorative elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-[10%] -left-[10%] w-[70%] h-[50%] rounded-full bg-gradient-to-r from-primary/5 to-accent/5 blur-3xl animate-morph"></div>
+        <div className="absolute top-[30%] -right-[10%] w-[60%] h-[40%] rounded-full bg-gradient-to-l from-primary/5 to-accent/5 blur-3xl animate-morph animation-delay-300"></div>
+      </div>
+      
+      <Card className="w-full max-w-md relative z-10 border border-white/10 backdrop-blur-xl bg-white/5 dark:bg-black/5 shadow-xl">
         <CardHeader className="space-y-1">
+          <div className="flex items-center justify-center mb-4">
+            <div className="relative h-10 w-10 mr-2">
+              <div className="absolute inset-0 bg-primary/20 rounded-full blur-md"></div>
+              <div className="relative glass p-2 rounded-full flex items-center justify-center">
+                <ExclamationTriangleIcon className="h-5 w-5 text-primary" />
+              </div>
+            </div>
+          </div>
           <CardTitle className="text-2xl font-bold text-center">Welcome back</CardTitle>
           <CardDescription className="text-center">
             Sign in to your account to continue
@@ -82,7 +96,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-4">
-            <Separator className="my-4" />
+            <Separator className="my-4 bg-white/10" />
             <div className="flex flex-col items-center space-y-2">
               <p className="text-sm text-muted-foreground">
                 Continue with Google
@@ -105,7 +119,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
                 ) : (
                   <button
                     onClick={onLogoutClick}
-                    className="w-full bg-destructive text-destructive-foreground hover:bg-destructive/90 h-10 px-4 py-2 rounded-md transition-colors"
+                    className="btn-modern w-full py-2"
                   >
                     Logout
                   </button>

@@ -18,6 +18,7 @@
     --muted: 210 40% 96.1%;
     --muted-foreground: 215 16% 47%;
     --accent: 262 100% 67%;
+    --accent-rgb: 147, 51, 234;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
@@ -47,6 +48,7 @@
     --muted: 217 19% 27%;
     --muted-foreground: 215 20.2% 65.1%;
     --accent: 264 96% 70%;
+    --accent-rgb: 167, 139, 250;
     --accent-foreground: 210 40% 98%;
     --destructive: 0 62.8% 60.6%;
     --destructive-foreground: 210 40% 98%;
@@ -67,6 +69,7 @@
   }
   body {
     @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
@@ -137,12 +140,19 @@
       hsl(var(--primary)), 
       hsl(var(--accent))
     );
+    background-size: 200% auto;
+    animation: shine 3s ease-in-out infinite alternate;
   }
 
   @keyframes gradient {
     0% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
+  }
+
+  @keyframes shine {
+    from { background-position: 0 50%; }
+    to { background-position: 100% 50%; }
   }
 
   /* Hover effects */
@@ -193,6 +203,12 @@
       transparent 100%
     );
     animation: shimmer 2s infinite;
+  }
+
+  @keyframes shimmer {
+    to {
+      transform: translateX(200%);
+    }
   }
 
   /* Custom scrollbar */
@@ -275,5 +291,51 @@
 
   .animate-morph {
     animation: morph 15s ease-in-out infinite;
+  }
+
+  /* Modern button styles */
+  .btn-modern {
+    @apply relative overflow-hidden rounded-xl px-6 py-3 font-medium transition-all duration-300;
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)));
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 4px 15px rgba(var(--primary-rgb), 0.3);
+  }
+
+  .btn-modern:hover {
+    background-position: right center;
+    box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.4);
+  }
+
+  .btn-modern::before {
+    content: "";
+    @apply absolute inset-0 rounded-xl;
+    background: linear-gradient(45deg, 
+      rgba(255, 255, 255, 0) 0%, 
+      rgba(255, 255, 255, 0.2) 50%, 
+      rgba(255, 255, 255, 0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.6s;
+  }
+
+  .btn-modern:hover::before {
+    transform: translateX(100%);
+  }
+
+  /* Floating animation */
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
   }
 }

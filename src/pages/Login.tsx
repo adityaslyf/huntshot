@@ -4,6 +4,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { LoadingSpinner } from "../components/ui/loading-spinner";
 
+interface LocationState {
+  from?: string;
+}
+
 export default function Login() {
   const { isSignedIn, isInitializing } = useAuth()
   const navigate = useNavigate()
@@ -23,7 +27,8 @@ export default function Login() {
     }
     
     if (isSignedIn) {
-      const from = (location.state as any)?.from || '/home'
+      const state = location.state as LocationState | null
+      const from = state?.from || '/home'
       console.log('[Login] User is signed in, navigating to:', from)
       navigate(from, { replace: true })
     }

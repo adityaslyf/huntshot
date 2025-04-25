@@ -7,6 +7,10 @@ interface ProtectedRouteProps {
   children: ReactNode
 }
 
+interface LocationState {
+  from: string;
+}
+
 export function ProtectedRoute({ children }: ProtectedRouteProps) {
   const { isSignedIn, isInitializing, userDetails } = useAuth()
   const navigate = useNavigate()
@@ -29,7 +33,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       console.log('[ProtectedRoute] Not signed in, redirecting to login')
       navigate('/login', { 
         replace: true,
-        state: { from: location.pathname }
+        state: { from: location.pathname } as LocationState
       })
       return
     }
