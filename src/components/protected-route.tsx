@@ -34,7 +34,7 @@ export function ProtectedRoute({ children }: ProtectedRouteProps) {
       return
     }
 
-    if (location.pathname === '/' && userDetails?.hasProfile) {
+    if (location.pathname === '/home' && userDetails?.hasProfile) {
       console.log('[ProtectedRoute] User has profile, redirecting to profile page')
       navigate('/profile', { replace: true })
     }

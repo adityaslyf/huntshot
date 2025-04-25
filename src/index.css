@@ -11,6 +11,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 222 47% 11%;
     --primary: 222 89% 55%;
+    --primary-rgb: 37, 99, 235;
     --primary-foreground: 210 40% 98%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222 47% 11%;
@@ -39,6 +40,7 @@
     --popover: 222 47% 11%;
     --popover-foreground: 210 40% 98%;
     --primary: 217 91% 60%;
+    --primary-rgb: 59, 130, 246;
     --primary-foreground: 210 40% 98%;
     --secondary: 217 19% 27%;
     --secondary-foreground: 210 40% 98%;
@@ -220,5 +222,58 @@
   
   .card-3d:hover {
     transform: rotateY(10deg) rotateX(10deg);
+  }
+
+  /* Wave divider */
+  .wave-divider {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+  }
+
+  .wave-divider::before {
+    content: "";
+    position: absolute;
+    width: 200%;
+    height: 100%;
+    top: 0;
+    left: -50%;
+    background: radial-gradient(ellipse at center, transparent 0%, hsl(var(--background)) 70%);
+    animation: wave-animation 10s ease-in-out infinite;
+  }
+
+  @keyframes wave-animation {
+    0%, 100% {
+      transform: translateY(-10%) translateX(0) scaleY(1);
+    }
+    50% {
+      transform: translateY(-10%) translateX(-25%) scaleY(0.8);
+    }
+  }
+
+  /* Glow effects */
+  .shadow-glow {
+    box-shadow: 0 0 15px rgba(var(--primary-rgb), 0.4);
+  }
+
+  .shadow-glow:hover {
+    box-shadow: 0 0 25px rgba(var(--primary-rgb), 0.6);
+  }
+
+  /* Animated morphing background */
+  @keyframes morph {
+    0% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+    50% {
+      border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+    }
+    100% {
+      border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+    }
+  }
+
+  .animate-morph {
+    animation: morph 15s ease-in-out infinite;
   }
 }

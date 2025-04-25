@@ -23,7 +23,7 @@ export default function Login() {
     }
     
     if (isSignedIn) {
-      const from = (location.state as any)?.from || '/'
+      const from = (location.state as any)?.from || '/home'
       console.log('[Login] User is signed in, navigating to:', from)
       navigate(from, { replace: true })
     }

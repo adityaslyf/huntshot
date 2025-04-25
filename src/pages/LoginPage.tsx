@@ -35,7 +35,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ setAuthToken, authToken, handleLo
       if (userDetails?.hasProfile) {
         navigate('/profile');
       } else {
-        navigate('/');
+        navigate('/home');
       }
     }
   }, [isLoggedIn, userDetails, navigate]);

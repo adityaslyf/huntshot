@@ -12,6 +12,7 @@ import Login from './pages/Login'
 import ProfileWrapper from './components/ProfileWrapper'
 import { ProtectedRoute } from './components/protected-route'
 import App from './App'
+import LandingPage from './pages/LandingPage'
 import { ResumeProvider } from './contexts/resume-context'
 import { ProfileProvider } from './contexts/profile-context'
 import { GoogleOAuthProvider, useGoogleLogin, CodeResponse } from '@react-oauth/google'
@@ -95,9 +96,10 @@ function AppWithAuth() {
         <ProfileProvider>
           <BrowserRouter>
             <Routes>
+              <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<Login />} />
               <Route 
-                path="/" 
+                path="/home" 
                 element={
                   <ProtectedRoute>
                     <App />
