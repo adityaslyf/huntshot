@@ -237,7 +237,7 @@ const LandingPage = () => {
                           </span>
                           <motion.div
                             className="absolute bottom-0 left-0 w-full h-[4px] bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 rounded-full"
-                            initial={{ scaleX: 0, originX: 0 }}
+                            initial={{ scaleX: 0 }}
                             animate={{ scaleX: 1 }}
                             transition={{ duration: 1, delay: 1.2 }}
                           ></motion.div>
@@ -358,8 +358,8 @@ const LandingPage = () => {
                       <div className="relative h-full w-full overflow-hidden">
                         {/* Dashboard preview */}
                         <motion.img
-                          src="https://placehold.co/1200x800/101730/FFFFFF/png?text=Profile+Dashboard&font=montserrat"
-                          alt="HuntShot Dashboard Preview"
+                          src="https://placehold.co/1200x800/101730/FFFFFF/png?text=Professional+Profile+Builder&font=montserrat"
+                          alt="HuntShot Profile Builder Preview"
                           className="object-cover w-full h-full"
                           initial={{ scale: 1.1, y: 20 }}
                           animate={{ scale: 1, y: 0 }}
@@ -376,7 +376,7 @@ const LandingPage = () => {
                           <div className="flex items-center">
                             <div className="h-2 w-2 rounded-full bg-purple-500 mr-2"></div>
                             <div className="text-xs text-white/80 font-medium">
-                              Profile score: 92%
+                              Resume completion: 92%
                             </div>
                           </div>
                         </motion.div>
@@ -392,13 +392,13 @@ const LandingPage = () => {
                             <div className="relative w-10 h-10 flex-shrink-0">
                               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 blur-[1px]"></div>
                               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-purple-500 to-blue-500 flex items-center justify-center text-white font-medium">
-                                A
+                                U
                               </div>
                             </div>
                             <div>
-                              <div className="font-medium">Alex Morgan</div>
+                              <div className="font-medium">Utkarsh Srivastava</div>
                               <div className="text-sm text-white/70">
-                                Full Stack Developer
+                                Flutter Developer
                               </div>
                             </div>
                           </div>
@@ -434,7 +434,7 @@ const LandingPage = () => {
                         >
                           <div className="flex items-center">
                             <div className="w-3 h-3 bg-blue-500/80 rounded-full mr-2"></div>
-                            <span>Experience: Verified ✓</span>
+                            <span>Profile strength: 95%</span>
                           </div>
                         </motion.div>
                       </div>
@@ -730,8 +730,8 @@ const LandingPage = () => {
                       <div className="absolute -inset-0.5 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-xl blur-lg"></div>
                       <div className="relative overflow-hidden rounded-xl border border-white/10 bg-gradient-to-b from-white/[0.12] to-white/[0.05] p-1">
                         <img
-                          src="https://placehold.co/800x600/101730/FFFFFF/png?text=AI+Resume+Parser&font=montserrat"
-                          alt="AI Resume Parser"
+                          src="https://placehold.co/800x600/101730/FFFFFF/png?text=AI+Resume+Analyzer&font=montserrat"
+                          alt="AI Resume Analyzer"
                           className="rounded-lg w-full"
                         />
                         {/* Overlay gradient */}
