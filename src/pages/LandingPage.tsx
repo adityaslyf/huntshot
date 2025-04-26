@@ -5,7 +5,6 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Button } from "@/components/ui/button";
 import { CustomToaster } from "@/components/ui/custom-toaster";
 import {
-  Sparkles,
   Menu,
   X,
 } from "lucide-react";
