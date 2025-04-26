@@ -396,7 +396,9 @@ const LandingPage = () => {
                               </div>
                             </div>
                             <div>
-                              <div className="font-medium">Utkarsh Srivastava</div>
+                              <div className="font-medium">
+                                Utkarsh Srivastava
+                              </div>
                               <div className="text-sm text-white/70">
                                 Flutter Developer
                               </div>
@@ -1040,7 +1042,7 @@ const LandingPage = () => {
               >
                 <button
                   onClick={handleGetStarted}
-                  className="group relative inline-flex items-center justify-center px-8 py-4 md:py-5 overflow-hidden rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 text-white font-medium shadow-lg transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-purple-500/25"
+                  className="group relative inline-flex items-center justify-center px-8 py-4 md:py-5 overflow-hidden rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 text-white font-medium shadow-lg transition-all duration-300 ease-out hover:scale-[1.02] hover:shadow-purple-500/25 mt-12"
                 >
                   <span className="absolute inset-0 bg-gradient-to-br from-purple-600 to-blue-600 opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-out"></span>
                   <span className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
@@ -1072,10 +1074,10 @@ const LandingPage = () => {
                 <div className="absolute -inset-1 bg-gradient-to-r from-blue-600/30 via-purple-600/30 to-pink-600/30 rounded-3xl blur-xl opacity-70"></div>
 
                 {/* Content card */}
-                <div className="relative bg-gradient-to-b from-white/[0.09] to-white/[0.03] backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
+                <div className="relative bg-gradient-to-b from-[#0A0F1E]/90 via-[#101730]/90 to-[#0A0F1E]/90 backdrop-blur-xl border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl overflow-hidden">
                   {/* Animated grid background */}
                   <div className="absolute inset-0 bg-[url('/grid.svg')] bg-[length:40px_40px] opacity-[0.03]"></div>
-
+                  
                   {/* Shine effect */}
                   <div className="absolute -inset-[100%] bg-gradient-to-r from-transparent via-white/10 to-transparent -skew-x-12 animate-shine-slow"></div>
 
