@@ -86,11 +86,12 @@ const LandingPage = () => {
                     to="/"
                     className="flex items-center space-x-2 mr-8 group"
                   >
-                    <div className="relative flex items-center justify-center h-9 w-9">
+                    {/* <div className="relative flex items-center justify-center h-9 w-9">
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg blur-[6px] opacity-75 group-hover:opacity-100 transition-opacity duration-300"></div>
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg"></div>
                       <Sparkles className="h-5 w-5 text-white relative z-10" />
-                    </div>
+                    </div> */}
+                    <img src="/logo.png" alt="HuntShot" width={36} height={36} />
                     <span className="font-bold text-xl tracking-tight">
                       HuntShot
                     </span>
@@ -173,9 +174,7 @@ const LandingPage = () => {
               <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-6 mb-12">
                 <div className="col-span-2 md:col-span-1">
                   <div className="flex items-center space-x-2 mb-6">
-                    <div className="relative flex items-center justify-center h-8 w-8 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-lg">
-                      <Sparkles className="h-4 w-4 text-white" />
-                    </div>
+                    <img src="/logo.png" alt="HuntShot" width={36} height={36} />
                     <span className="font-bold text-lg">HuntShot</span>
                   </div>
                   <p className="text-sm text-white/50 mb-4 max-w-xs">
