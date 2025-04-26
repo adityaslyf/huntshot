@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Button } from '@/components/ui/button'
 import { CustomToaster } from "@/components/ui/custom-toaster"
-import { Sparkles, FileText, User, Settings, ArrowRight, Menu, X, CheckCircle2 } from 'lucide-react'
+import { Sparkles, FileText, User, Settings, ArrowRight, Menu, X, CheckCircle2, Mail } from 'lucide-react'
 import { useAuth } from "@/hooks/user-auth"
 
 const features = [
@@ -22,6 +22,11 @@ const features = [
     title: "Advanced Settings",
     description: "Complete control over visibility, privacy, and sharing options for your professional profile.",
     icon: <Settings className="h-7 w-7 text-blue-400" />
+  },
+  {
+    title: "AI Email Templates",
+    description: "Generate personalized email templates tailored to specific roles and companies to boost your application success.",
+    icon: <Mail className="h-7 w-7 text-blue-400" />
   }
 ];
 
@@ -87,21 +92,6 @@ const LandingPage = () => {
                     </div>
                     <span className="font-bold text-xl tracking-tight">HuntShot</span>
                   </Link>
-                  
-                  <nav className="hidden md:flex items-center space-x-8">
-                    <Link to="/features" className="text-sm font-medium text-white/70 hover:text-white transition-colors relative group">
-                      Features
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </Link>
-                    <Link to="/pricing" className="text-sm font-medium text-white/70 hover:text-white transition-colors relative group">
-                      Pricing
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </Link>
-                    <Link to="/about" className="text-sm font-medium text-white/70 hover:text-white transition-colors relative group">
-                      About
-                      <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-blue-500 to-purple-600 group-hover:w-full transition-all duration-300"></span>
-                    </Link>
-                  </nav>
                 </div>
                 
                 <div className="hidden md:flex items-center space-x-4">
@@ -141,11 +131,6 @@ const LandingPage = () => {
                 exit={{ opacity: 0, y: -20 }}
                 className="md:hidden p-4 bg-[#0c1222] border-t border-white/5"
               >
-                <nav className="flex flex-col space-y-4 pb-4 border-b border-white/5 mb-4">
-                  <Link to="/features" className="px-2 py-1 text-white/70 hover:text-white">Features</Link>
-                  <Link to="/pricing" className="px-2 py-1 text-white/70 hover:text-white">Pricing</Link>
-                  <Link to="/about" className="px-2 py-1 text-white/70 hover:text-white">About</Link>
-                </nav>
                 <div className="flex flex-col space-y-3">
                   <Link to="/login">
                     <Button variant="outline" className="w-full justify-center border-white/10">
@@ -154,7 +139,7 @@ const LandingPage = () => {
                   </Link>
                   <Button 
                     onClick={handleGetStarted}
-                    className="w-full justify-center bg-gradient-to-r from-blue-600 to-indigo-700"
+                    className="w-full justify-center bg-gradient-to-r from-blue-600 to-purple-600"
                   >
                     Get Started
                   </Button>
@@ -252,13 +237,14 @@ const LandingPage = () => {
                     transition={{ duration: 0.5, delay: 1.2 }}
                     className="mb-10"
                   >
-                    <p className="text-xl md:text-2xl text-white/70 max-w-xl">
+                    <p className=" text-sm md:text-xl text-white/70 max-w-xl">
                       HuntShot uses AI to parse your resume, extract key information, and create a standout 
-                      professional profile that gets noticed by recruiters.
+                      professional profile that gets noticed by recruiters. Generate personalized email templates 
+                      tailored for specific roles and companies to significantly boost your application success rate.
                     </p>
                   </motion.div>
                   
-                  {/* Animated buttons with hover effects */}
+                  {/* Animated buttons with hover effects */} 
                   <motion.div 
                     className="flex flex-col sm:flex-row gap-4 mb-10"
                     initial={{ opacity: 0, y: 20 }}
@@ -761,27 +747,49 @@ const LandingPage = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="text-xl text-white/70 max-w-2xl mx-auto"
                 >
-                  Three simple steps to transform your resume into a professional profile
+                  Complete journey from resume to successful application
                 </motion.p>
               </div>
               
-              {/* Process steps with cinematic animations */}
+              {/* Process steps with cinematic animations - Enhanced with more detailed flow */}
               <div className="relative">
-                {/* Connecting line */}
+                {/* Connecting line with arrows */}
                 <motion.div 
-                  className="absolute top-28 left-[20%] right-[20%] h-0.5 hidden md:block"
+                  className="absolute top-28 left-[10%] right-[10%] h-0.5 hidden md:block"
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 1, delay: 0.5 }}
+                  transition={{ duration: 1.5, delay: 0.5 }}
                 >
-                  <div className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500"></div>
+                  <div className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 relative">
+                    {/* Arrow markers */}
+                    <div className="absolute top-1/2 left-[20%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                    <div className="absolute top-1/2 left-[40%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                    <div className="absolute top-1/2 left-[80%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+                    </div>
+                  </div>
                 </motion.div>
                 
-                <div className="grid md:grid-cols-3 gap-12 md:gap-6 relative">
+                <div className="grid md:grid-cols-5 gap-6 relative">
                   {[
                     {
                       step: "01",
+                      title: "Login",
+                      description: "Create an account or sign in to access your personalized dashboard.",
+                      icon: <div className="p-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+                      </div>
+                    },
+                    {
+                      step: "02",
                       title: "Upload Resume",
                       description: "Simply upload your existing resume or CV in any format – PDF, DOC, or DOCX.",
                       icon: <div className="p-1.5">
@@ -789,7 +797,7 @@ const LandingPage = () => {
                       </div>
                     },
                     {
-                      step: "02",
+                      step: "03",
                       title: "AI Processing",
                       description: "Our advanced AI extracts and organizes your professional information beautifully.",
                       icon: <div className="p-1.5">
@@ -797,11 +805,19 @@ const LandingPage = () => {
                       </div>
                     },
                     {
-                      step: "03",
-                      title: "Edit & Share",
-                      description: "Review, customize your profile and share it with potential employers.",
+                      step: "04",
+                      title: "Create Profile",
+                      description: "Review, customize your professional profile that highlights your skills and experience.",
                       icon: <div className="p-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M3 15a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v4a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4z"></path><path d="M10 8V7c0-1.7 1.3-3 3-3h0c1.7 0 3 1.3 3 3v1"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </div>
+                    },
+                    {
+                      step: "05",
+                      title: "Email & Share",
+                      description: "Generate personalized emails and share your profile with potential employers.",
+                      icon: <div className="p-1.5">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                       </div>
                     }
                   ].map((item, i) => (
@@ -812,7 +828,7 @@ const LandingPage = () => {
                       viewport={{ once: true }}
                       transition={{
                         duration: 0.7, 
-                        delay: 0.3 + (i * 0.2),
+                        delay: 0.3 + (i * 0.15),
                         type: "spring", 
                         stiffness: 50
                       }}
@@ -820,14 +836,14 @@ const LandingPage = () => {
                     >
                       {/* Numbered step circle with glow */}
                       <motion.div 
-                        className="w-16 h-16 md:w-20 md:h-20 mx-auto mb-6 relative z-10"
+                        className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 relative z-10"
                         whileHover={{ scale: 1.05 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                       >
                         <div className="absolute -inset-2 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full blur-lg opacity-70"></div>
                         <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full"></div>
                         <div className="absolute inset-[2px] bg-black rounded-full"></div>
-                        <div className="absolute inset-0 flex items-center justify-center text-2xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
+                        <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-transparent bg-gradient-to-r from-purple-400 to-blue-400 bg-clip-text">
                           {item.step}
                         </div>
                         
@@ -839,22 +855,22 @@ const LandingPage = () => {
                       
                       {/* Step content with 3D-like card */}
                       <motion.div 
-                        className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.05] backdrop-blur-lg border border-white/10 rounded-2xl p-8 text-center h-full"
+                        className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.05] backdrop-blur-lg border border-white/10 rounded-xl p-4 text-center h-full"
                         whileHover={{ 
                           translateY: -8,
                           boxShadow: "0 20px 80px -20px rgba(120, 87, 255, 0.2)"
                         }}
                       >
                         {/* Icon with glowing background */}
-                        <div className="w-12 h-12 mx-auto mb-5 relative">
+                        <div className="w-10 h-10 mx-auto mb-3 relative">
                           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full blur-md"></div>
                           <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
                             {item.icon}
                           </div>
                         </div>
                         
-                        <h3 className="text-xl font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text">{item.title}</h3>
-                        <p className="text-white/70">{item.description}</p>
+                        <h3 className="text-lg font-bold mb-2 bg-gradient-to-r from-white to-white/80 bg-clip-text">{item.title}</h3>
+                        <p className="text-white/70 text-sm">{item.description}</p>
                         
                         {/* Decorative bottom border */}
                         <div className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
