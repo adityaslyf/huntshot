@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Button } from '@/components/ui/button'
 import { CustomToaster } from "@/components/ui/custom-toaster"
-import { Sparkles, FileText, User, Settings, ArrowRight, Menu, X, CheckCircle2, Mail } from 'lucide-react'
+import { Sparkles, FileText, User, ArrowRight, Menu, X, CheckCircle2, Mail } from 'lucide-react'
 import { useAuth } from "@/hooks/user-auth"
 
 const features = [
@@ -17,11 +17,6 @@ const features = [
     title: "Professional Profile",
     description: "Create a customizable professional profile that highlights your most relevant skills and experience.",
     icon: <User className="h-7 w-7 text-blue-400" />
-  },
-  {
-    title: "Advanced Settings",
-    description: "Complete control over visibility, privacy, and sharing options for your professional profile.",
-    icon: <Settings className="h-7 w-7 text-blue-400" />
   },
   {
     title: "AI Email Templates",
@@ -490,7 +485,7 @@ const LandingPage = () => {
               </motion.div>
               
               {/* 3D Feature Cards */}
-              <div className="grid md:grid-cols-3 gap-10 perspective-[1000px]">
+              <div className="flex flex-wrap justify-center items-stretch gap-8">
                 {features.map((feature, i) => (
                   <motion.div
                     key={i}
@@ -509,7 +504,7 @@ const LandingPage = () => {
                       rotateX: 5,
                       scale: 1.02
                     }}
-                    className="group relative transform-gpu"
+                    className="group relative transform-gpu w-full md:w-[30%] flex-grow flex-shrink-0 max-w-md"
                   >
                     {/* Card glow hover effect */}
                     <motion.div
@@ -523,7 +518,7 @@ const LandingPage = () => {
                     ></motion.div>
                     
                     {/* Card container */}
-                    <div className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full overflow-hidden transform transition-all duration-300">
+                    <div className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.03] backdrop-blur-xl border border-white/10 rounded-2xl p-8 h-full overflow-hidden transform transition-all duration-300 flex flex-col">
                       {/* Reflective light effect */}
                       <div className="absolute -inset-[300%] bg-gradient-to-t from-white/0 via-white/10 to-white/0 opacity-0 group-hover:opacity-100 transform rotate-45 group-hover:translate-x-[50%] group-hover:translate-y-[50%] transition-all duration-1000"></div>
                       
@@ -536,8 +531,10 @@ const LandingPage = () => {
                       </div>
                       
                       {/* Text with animations */}
-                      <h3 className="text-xl font-bold mb-3 bg-gradient-to-br from-white to-white/80 bg-clip-text group-hover:text-transparent transition-colors duration-300">{feature.title}</h3>
-                      <p className="text-white/70 group-hover:text-white/90 transition-colors duration-300">{feature.description}</p>
+                      <div className="flex-grow">
+                        <h3 className="text-xl font-bold mb-3 bg-gradient-to-br from-white to-white/80 bg-clip-text group-hover:text-transparent transition-colors duration-300">{feature.title}</h3>
+                        <p className="text-white/70 group-hover:text-white/90 transition-colors duration-300">{feature.description}</p>
+                      </div>
                       
                       {/* Animated arrow */}
                       <div className="mt-6 overflow-hidden h-6">
@@ -747,7 +744,7 @@ const LandingPage = () => {
                   transition={{ duration: 0.5, delay: 0.2 }}
                   className="text-xl text-white/70 max-w-2xl mx-auto"
                 >
-                  Complete journey from resume to successful application
+                  Simple journey from resume to successful application
                 </motion.p>
               </div>
               
@@ -755,7 +752,7 @@ const LandingPage = () => {
               <div className="relative">
                 {/* Connecting line with arrows */}
                 <motion.div 
-                  className="absolute top-28 left-[10%] right-[10%] h-0.5 hidden md:block"
+                  className="absolute top-28 left-[12%] right-[12%] h-0.5 hidden md:block"
                   initial={{ scaleX: 0 }}
                   whileInView={{ scaleX: 1 }}
                   viewport={{ once: true }}
@@ -763,33 +760,22 @@ const LandingPage = () => {
                 >
                   <div className="h-full bg-gradient-to-r from-purple-500 via-blue-500 to-purple-500 relative">
                     {/* Arrow markers */}
-                    <div className="absolute top-1/2 left-[20%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                    <div className="absolute top-1/2 left-[25%] -translate-y-1/2 w-4 h-4 text-blue-500">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
-                    <div className="absolute top-1/2 left-[40%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                    <div className="absolute top-1/2 left-[50%] -translate-y-1/2 w-4 h-4 text-blue-500">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
-                    <div className="absolute top-1/2 left-[60%] -translate-y-1/2 w-4 h-4 text-blue-500">
-                      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                    </div>
-                    <div className="absolute top-1/2 left-[80%] -translate-y-1/2 w-4 h-4 text-blue-500">
+                    <div className="absolute top-1/2 left-[75%] -translate-y-1/2 w-4 h-4 text-blue-500">
                       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
                     </div>
                   </div>
                 </motion.div>
                 
-                <div className="grid md:grid-cols-5 gap-6 relative">
+                <div className="grid md:grid-cols-4 gap-8 relative">
                   {[
                     {
                       step: "01",
-                      title: "Login",
-                      description: "Create an account or sign in to access your personalized dashboard.",
-                      icon: <div className="p-1.5">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
-                      </div>
-                    },
-                    {
-                      step: "02",
                       title: "Upload Resume",
                       description: "Simply upload your existing resume or CV in any format – PDF, DOC, or DOCX.",
                       icon: <div className="p-1.5">
@@ -797,7 +783,7 @@ const LandingPage = () => {
                       </div>
                     },
                     {
-                      step: "03",
+                      step: "02",
                       title: "AI Processing",
                       description: "Our advanced AI extracts and organizes your professional information beautifully.",
                       icon: <div className="p-1.5">
@@ -805,7 +791,7 @@ const LandingPage = () => {
                       </div>
                     },
                     {
-                      step: "04",
+                      step: "03",
                       title: "Create Profile",
                       description: "Review, customize your professional profile that highlights your skills and experience.",
                       icon: <div className="p-1.5">
@@ -813,7 +799,7 @@ const LandingPage = () => {
                       </div>
                     },
                     {
-                      step: "05",
+                      step: "04",
                       title: "Email & Share",
                       description: "Generate personalized emails and share your profile with potential employers.",
                       icon: <div className="p-1.5">
@@ -836,7 +822,7 @@ const LandingPage = () => {
                     >
                       {/* Numbered step circle with glow */}
                       <motion.div 
-                        className="w-14 h-14 md:w-16 md:h-16 mx-auto mb-4 relative z-10"
+                        className="w-16 h-16 md:w-18 md:h-18 mx-auto mb-5 relative z-10"
                         whileHover={{ scale: 1.05 }}
                         transition={{ type: "spring", stiffness: 400, damping: 10 }}
                       >
@@ -855,22 +841,22 @@ const LandingPage = () => {
                       
                       {/* Step content with 3D-like card */}
                       <motion.div 
-                        className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.05] backdrop-blur-lg border border-white/10 rounded-xl p-4 text-center h-full"
+                        className="relative bg-gradient-to-b from-white/[0.15] to-white/[0.05] backdrop-blur-lg border border-white/10 rounded-xl p-6 text-center h-full"
                         whileHover={{ 
                           translateY: -8,
                           boxShadow: "0 20px 80px -20px rgba(120, 87, 255, 0.2)"
                         }}
                       >
                         {/* Icon with glowing background */}
-                        <div className="w-10 h-10 mx-auto mb-3 relative">
+                        <div className="w-12 h-12 mx-auto mb-4 relative">
                           <div className="absolute inset-0 bg-gradient-to-r from-purple-500/30 to-blue-500/30 rounded-full blur-md"></div>
                           <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
                             {item.icon}
                           </div>
                         </div>
                         
-                        <h3 className="text-lg font-bold mb-2 bg-gradient-to-r from-white to-white/80 bg-clip-text">{item.title}</h3>
-                        <p className="text-white/70 text-sm">{item.description}</p>
+                        <h3 className="text-lg font-bold mb-3 bg-gradient-to-r from-white to-white/80 bg-clip-text">{item.title}</h3>
+                        <p className="text-white/70">{item.description}</p>
                         
                         {/* Decorative bottom border */}
                         <div className="absolute bottom-0 left-1/4 right-1/4 h-[2px] bg-gradient-to-r from-transparent via-purple-500/50 to-transparent"></div>
