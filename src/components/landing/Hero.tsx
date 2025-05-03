@@ -233,7 +233,7 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
                       </div>
                       <div>
                         <div className="font-medium">
-                          Utkarsh Srivastava
+                          Ayush Tiwari
                         </div>
                         <div className="text-sm text-white/70">
                           Flutter Developer
