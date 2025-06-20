@@ -18,6 +18,12 @@ export default {
                 "2xl": "1400px",
             },
         },
+        fontFamily: {
+            'sans': ['Urbanist', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
+            'display': ['Urbanist', 'system-ui', '-apple-system', 'sans-serif'],
+            'heading': ['Urbanist', 'system-ui', '-apple-system', 'sans-serif'],
+            'mono': ['Urbanist', 'ui-monospace', 'SFMono-Regular', 'monospace'],
+        },
         extend: {
             colors: {
                 border: "hsl(var(--border))",

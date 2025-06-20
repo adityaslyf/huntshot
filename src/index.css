@@ -2,6 +2,11 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Force Urbanist font globally */
+* {
+  font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+}
+
 @layer base {
   :root {
     --background: 240 20% 98%;
@@ -66,10 +71,25 @@
 @layer base {
   * {
     @apply border-border;
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   }
+  
+  html {
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  }
+  
   body {
     @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
+  }
+  
+  input, textarea, select, button, label, span, p, div, a {
+    font-family: 'Urbanist', system-ui, -apple-system, BlinkMacSystemFont, sans-serif !important;
   }
 }
 

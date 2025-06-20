@@ -1,213 +1,114 @@
 import { motion } from "framer-motion";
-import { Upload, Brain, User, Mail } from "lucide-react";
-import { useRef } from "react";
+
+import {
+  Upload,
+  BrainCircuit,
+  Award,
+  Mails,
+} from "lucide-react";
+import React from "react";
+
+const steps = [
+  {
+    icon: Upload,
+    title: "Upload Resume",
+    description:
+      "Start by uploading your resume in PDF or DOCX format.",
+  },
+  {
+    icon: BrainCircuit,
+    title: "AI Processing",
+    description: "Our AI carefully extracts key information from your document.",
+  },
+  {
+    icon: Award,
+    title: "Create Profile",
+    description:
+      "A professional profile is automatically generated for you to review.",
+  },
+  {
+    icon: Mails,
+    title: "Generate Emails",
+    description:
+      "Create personalized outreach emails based on your new profile.",
+  },
+];
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 50, scale: 0.95 },
+  visible: (i: number) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: {
+      duration: 0.5,
+      delay: i * 0.15,
+      ease: "easeOut",
+    },
+  }),
+};
 
 const HowItWorks = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const step1Ref = useRef<HTMLDivElement>(null);
-  const step2Ref = useRef<HTMLDivElement>(null);
-  const step3Ref = useRef<HTMLDivElement>(null);
-  const step4Ref = useRef<HTMLDivElement>(null);
-
-  const steps = [
-    {
-      step: "01",
-      title: "Upload Resume",
-      icon: <Upload className="h-8 w-8 text-blue-400" />,
-      color: "blue",
-      visual: "📄",
-    },
-    {
-      step: "02",
-      title: "AI Processing",
-      icon: <Brain className="h-8 w-8 text-purple-400" />,
-      color: "purple",
-      visual: "⚡",
-    },
-    {
-      step: "03",
-      title: "Create Profile",
-      icon: <User className="h-8 w-8 text-green-400" />,
-      color: "green",
-      visual: "👤",
-    },
-    {
-      step: "04",
-      title: "Generate Emails",
-      icon: <Mail className="h-8 w-8 text-orange-400" />,
-      color: "orange",
-      visual: "✉️",
-    },
-  ];
-
   return (
-    <section className="py-20 md:py-28 relative overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6 relative z-10">
-        {/* Section Header */}
+    <section className="py-20 md:py-28 bg-transparent">
+      <div className="max-w-6xl mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-20"
+          className="text-center mb-16 md:mb-24"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full py-2 px-4 border border-white/10 mb-6"
-          >
-            <span className="text-sm text-white/80">Simple Process</span>
-          </motion.div>
-
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-4xl md:text-5xl font-bold mb-6"
-          >
-            How{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
-              HuntShot
-            </span>{" "}
-            Works
-          </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-white/70 max-w-2xl mx-auto"
-          >
-            Simple journey from resume to successful application in just a few minutes
-          </motion.p>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl font-heading font-black mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent tracking-tight">
+            How It Works
+          </h2>
+          <p className="text-lg md:text-xl font-sans text-white/80 max-w-3xl mx-auto leading-relaxed font-light">
+            A simple, streamlined journey from resume to successful application.
+          </p>
         </motion.div>
 
-        {/* Visual Process Flow */}
-        <motion.div
-          ref={containerRef}
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="relative"
-        >
-          {/* Process Steps */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 items-center">
-            {steps.map((step, i) => (
-              <motion.div
-                key={i}
-                ref={i === 0 ? step1Ref : i === 1 ? step2Ref : i === 2 ? step3Ref : step4Ref}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.3 + i * 0.1, duration: 0.6 }}
-                whileHover={{ y: -8 }}
-                className="relative group"
-              >
-                <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl p-6 hover:border-white/20 transition-all duration-300">
-                  {/* Step Number */}
-                  <div className="absolute -top-3 -right-3 w-8 h-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">
-                    {step.step}
-                  </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {steps.map((step, index) => (
+            <motion.div
+              key={index}
+              variants={cardVariants}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.3 }}
+              custom={index}
+              className="group relative p-8 rounded-2xl bg-slate-900/50 border border-white/10 overflow-hidden text-center hover:border-white/20 transition-all duration-500 hover:bg-slate-900/70 hover:scale-105"
+            >
+              {/* Step Number */}
+              <div className="absolute -top-3 -right-3 w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center shadow-lg">
+                <span className="text-white text-sm font-mono font-bold tracking-wider">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+              </div>
 
-                  {/* Visual Emoji */}
-                  <div className="text-4xl mb-4 text-center">{step.visual}</div>
-
-                  {/* Animated Icon */}
-                  <motion.div
-                    className="w-16 h-16 bg-gradient-to-br from-white/5 to-white/10 rounded-xl flex items-center justify-center mb-4 mx-auto group-hover:scale-110 transition-transform"
-                    whileHover={{ rotate: 5 }}
-                  >
-                    {step.icon}
-                  </motion.div>
-
-                  {/* Content */}
-                  <h3 className="text-lg font-semibold text-white text-center mb-2">
-                    {step.title}
-                  </h3>
-                  
-                  {/* Progress Indicator */}
-                  <div className="mt-4 flex justify-center">
-                    <motion.div
-                      className="w-full h-1 bg-white/10 rounded-full overflow-hidden"
-                      initial={{ scaleX: 0 }}
-                      whileInView={{ scaleX: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1, delay: 0.5 + i * 0.2 }}
-                    >
-                      <motion.div
-                        className={`h-full bg-gradient-to-r from-${step.color}-400 to-${step.color}-600`}
-                        initial={{ scaleX: 0 }}
-                        whileInView={{ scaleX: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.5, delay: 0.8 + i * 0.2 }}
-                      />
-                    </motion.div>
-                  </div>
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 to-purple-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              
+              <div className="relative z-10 flex flex-col items-center">
+                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-blue-500 to-purple-600 border-2 border-white/20 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-xl">
+                  <step.icon className="w-10 h-10 text-white" />
                 </div>
-              </motion.div>
-            ))}
-          </div>
+                
+                <h3 className="text-xl font-display font-bold text-white mb-3 group-hover:text-blue-100 transition-colors duration-300 tracking-wide">
+                  {step.title}
+                </h3>
+                
+                <p className="text-white/70 font-sans leading-relaxed group-hover:text-white/80 transition-colors duration-300 font-normal">
+                  {step.description}
+                </p>
+              </div>
 
-          {/* Animated Beams connecting the steps */}
-          <svg
-            className="absolute inset-0 w-full h-full pointer-events-none"
-            style={{ zIndex: -1 }}
-          >
-            <defs>
-              <linearGradient id="processBeamGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#3b82f6" stopOpacity="0.5" />
-                <stop offset="25%" stopColor="#8b5cf6" stopOpacity="0.7" />
-                <stop offset="50%" stopColor="#10b981" stopOpacity="0.7" />
-                <stop offset="75%" stopColor="#f59e0b" stopOpacity="0.7" />
-                <stop offset="100%" stopColor="#ec4899" stopOpacity="0.5" />
-              </linearGradient>
-            </defs>
-            
-            {/* Beam 1: Step 1 to Step 2 */}
-            <motion.path
-              d="M 25% 50% Q 37.5% 30% 50% 50%"
-              stroke="url(#processBeamGradient)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="20 10"
-              initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, delay: 0.8 }}
-            />
-            
-            {/* Beam 2: Step 2 to Step 3 */}
-            <motion.path
-              d="M 50% 50% Q 62.5% 30% 75% 50%"
-              stroke="url(#processBeamGradient)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="20 10"
-              initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, delay: 1.0 }}
-            />
-            
-            {/* Beam 3: Step 3 to Step 4 */}
-            <motion.path
-              d="M 75% 50% Q 87.5% 30% 100% 50%"
-              stroke="url(#processBeamGradient)"
-              strokeWidth="3"
-              fill="none"
-              strokeDasharray="20 10"
-              initial={{ pathLength: 0, opacity: 0 }}
-              whileInView={{ pathLength: 1, opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 2, delay: 1.2 }}
-            />
-          </svg>
-        </motion.div>
+              {/* Decorative elements */}
+              <div className="absolute top-4 left-4 w-2 h-2 rounded-full bg-blue-400/30 group-hover:bg-blue-400/60 transition-colors duration-300" />
+              <div className="absolute bottom-4 right-4 w-1 h-1 rounded-full bg-purple-400/30 group-hover:bg-purple-400/60 transition-colors duration-300" />
+            </motion.div>
+          ))}
+        </div>
+
+    
       </div>
     </section>
   );
