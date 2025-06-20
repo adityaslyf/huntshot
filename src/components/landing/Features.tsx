@@ -1,41 +1,32 @@
 import { motion } from "framer-motion";
-import { FileText, User, Mail, ArrowRight, Sparkles } from "lucide-react";
-
-const features = [
-  {
-    title: "AI Resume Parsing",
-    description:
-      "Our AI extracts all key information from your resume automatically with industry-leading accuracy.",
-    icon: <FileText className="h-6 w-6 text-blue-400" />,
-    color: "blue",
-  },
-  {
-    title: "Professional Profile",
-    description:
-      "Create a customizable professional profile that highlights your most relevant skills and experience.",
-    icon: <User className="h-6 w-6 text-purple-400" />,
-    color: "purple",
-  },
-  {
-    title: "AI Email Templates",
-    description:
-      "Generate personalized email templates tailored to specific roles and companies to boost your application success.",
-    icon: <Mail className="h-6 w-6 text-green-400" />,
-    color: "green",
-  },
-];
+import { FileText, User, Mail, Sparkles } from "lucide-react";
 
 const Features = () => {
   return (
-    <section className="py-20 md:py-28">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Section header */}
+    <section className="py-20 md:py-28 relative overflow-hidden">
+      {/* Animated Background */}
+      <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-blue-950/10 to-slate-950"></div>
+        <motion.div
+          className="absolute top-1/4 left-1/4 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.2, 1], opacity: [0.3, 0.6, 0.3] }}
+          transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+        />
+        <motion.div
+          className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-purple-500/5 rounded-full blur-3xl"
+          animate={{ scale: [1, 1.1, 1], opacity: [0.3, 0.5, 0.3] }}
+          transition={{ duration: 15, repeat: Infinity, ease: "easeInOut", delay: 3 }}
+        />
+      </div>
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
+        {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-20"
         >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -44,7 +35,12 @@ const Features = () => {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full py-2 px-4 border border-white/10 mb-6"
           >
-            <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
+            <motion.div
+              animate={{ rotate: 360 }}
+              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
+            >
+              <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
+            </motion.div>
             <span className="text-sm text-white/80">Key Features</span>
           </motion.div>
 
@@ -53,63 +49,81 @@ const Features = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-3xl md:text-4xl font-bold mb-4"
+            className="text-4xl md:text-5xl font-bold"
           >
             Everything you need for a{" "}
-            <span className="bg-gradient-to-r from-blue-400 to-purple-500 text-transparent bg-clip-text">
+            <span className="bg-gradient-to-r from-blue-400 via-purple-500 to-pink-500 text-transparent bg-clip-text">
               perfect profile
             </span>
           </motion.h2>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="text-lg text-white/70 max-w-2xl mx-auto"
-          >
-            Our intelligent platform combines cutting-edge AI with beautiful design to help you stand out
-          </motion.p>
         </motion.div>
 
-        {/* Feature cards */}
-        <div className="grid md:grid-cols-3 gap-8">
-          {features.map((feature, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{
-                duration: 0.6,
-                delay: i * 0.1,
-              }}
-              whileHover={{ y: -4 }}
-              className="group relative"
+        {/* Visual Features Grid */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.2 }}
+          className="grid lg:grid-cols-3 gap-8"
+        >
+          {/* Card 1: AI Resume Parsing */}
+          <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-sm flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-xl flex items-center justify-center mb-6">
+              <FileText className="h-8 w-8 text-blue-400" />
+            </div>
+            <div className="flex space-x-2 mb-6">
+              <motion.div 
+                className="w-2.5 h-2.5 bg-blue-400 rounded-full"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.1 }}
+              />
+              <motion.div 
+                className="w-2.5 h-2.5 bg-purple-400 rounded-full"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.3 }}
+              />
+              <motion.div 
+                className="w-2.5 h-2.5 bg-pink-400 rounded-full"
+                animate={{ y: [0, -4, 0] }}
+                transition={{ duration: 1.5, repeat: Infinity, delay: 0.5 }}
+              />
+            </div>
+            <h3 className="text-xl font-bold text-white mb-2">AI Resume Parsing</h3>
+            <p className="text-white/60 text-sm">Extract key information automatically</p>
+          </div>
+
+          {/* Card 2: Professional Profile */}
+          <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-sm flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-xl flex items-center justify-center mb-6">
+              <User className="h-8 w-8 text-purple-400" />
+            </div>
+            <motion.div 
+              className="w-12 h-12 rounded-full bg-gradient-to-br from-purple-400 to-pink-400 flex items-center justify-center mb-6"
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ duration: 3, repeat: Infinity }}
             >
-              <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-xl p-6 h-full hover:border-white/20 transition-all duration-300">
-                {/* Icon */}
-                <div className="w-12 h-12 bg-white/5 rounded-lg flex items-center justify-center mb-4 group-hover:bg-white/10 transition-colors">
-                  {feature.icon}
-                </div>
-
-                {/* Content */}
-                <h3 className="text-xl font-semibold mb-3 text-white">
-                  {feature.title}
-                </h3>
-                <p className="text-white/70 leading-relaxed mb-4">
-                  {feature.description}
-                </p>
-
-                {/* Learn more link */}
-                <div className="flex items-center text-sm text-blue-400 group-hover:text-blue-300 transition-colors">
-                  Learn more
-                  <ArrowRight className="ml-1 h-4 w-4 group-hover:translate-x-1 transition-transform" />
-                </div>
-              </div>
+              <div className="w-6 h-6 rounded-full bg-white"/>
             </motion.div>
-          ))}
-        </div>
+            <h3 className="text-xl font-bold text-white mb-2">Professional Profile</h3>
+            <p className="text-white/60 text-sm">Create standout profiles</p>
+          </div>
+
+          {/* Card 3: AI Email Templates */}
+          <div className="bg-slate-900/50 p-8 rounded-2xl border border-white/10 backdrop-blur-sm flex flex-col items-center text-center">
+            <div className="w-16 h-16 bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-xl flex items-center justify-center mb-6">
+              <Mail className="h-8 w-8 text-green-400" />
+            </div>
+            <motion.div 
+              className="w-16 h-8 rounded-lg bg-green-400 mb-6"
+              animate={{
+                boxShadow: ["0 0 0px #10b981", "0 0 20px #10b981", "0 0 0px #10b981"],
+              }}
+              transition={{ duration: 2.5, repeat: Infinity }}
+            />
+            <h3 className="text-xl font-bold text-white mb-2">AI Email Templates</h3>
+            <p className="text-white/60 text-sm">Generate personalized emails</p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
