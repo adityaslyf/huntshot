@@ -6,7 +6,7 @@ import {
   Award,
   Mails,
 } from "lucide-react";
-import React from "react";
+
 
 const steps = [
   {

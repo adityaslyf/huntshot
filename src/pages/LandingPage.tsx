@@ -196,11 +196,7 @@ const LandingPage = () => {
                 </div>
               </div>
 
-              <div className="mt-6 pt-6 border-t border-white/5 text-center">
-                <p className="text-sm text-white/40">
-                  © 2024 HuntShot. All rights reserved.
-                </p>
-              </div>
+              
             </div>
           </footer>
         </div>
