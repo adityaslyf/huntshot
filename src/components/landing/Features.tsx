@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { FileText, User, Mail, Sparkles } from "lucide-react";
+import { FileText, User, Mail } from "lucide-react";
 
 const Features = () => {
   return (
@@ -35,12 +35,6 @@ const Features = () => {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full py-2 px-4 border border-white/10 mb-6"
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
-            </motion.div>
             <span className="text-sm text-white/80">Key Features</span>
           </motion.div>
 

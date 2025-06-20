@@ -10,7 +10,7 @@ import { parseResume } from "./lib/resume-parser"
 import { AuthProvider } from '@/contexts/auth-context'
 import { ProfileProvider } from '@/contexts/profile-context'
 import { motion } from 'framer-motion'
-import { Sparkles, Upload, FileText, ChevronRight } from 'lucide-react'
+import { Upload, FileText, ChevronRight } from 'lucide-react'
 
 function App() {
   const navigate = useNavigate()
@@ -81,13 +81,10 @@ function App() {
                   variants={itemVariants}
                 >
                   <div className="flex items-center justify-center mb-4">
-                    <Sparkles className="w-8 h-8 text-primary mr-2 animate-pulse" />
-                    <h1 className="text-4xl md:text-5xl font-extrabold gradient-text inline-block">
-                      Resume Parser
-                    </h1>
+                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Resume Parser</h1>
                   </div>
-                  <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-                    Upload your resume and let our AI transform it into a beautifully formatted profile
+                  <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
+                    Upload your resume and we'll parse it for you.
                   </p>
                 </motion.div>
                 

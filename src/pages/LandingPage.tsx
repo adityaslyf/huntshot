@@ -7,7 +7,6 @@ import { CustomToaster } from "@/components/ui/custom-toaster";
 import {
   Menu,
   X,
-  Sparkles,
   Instagram,
   Twitter,
   Mail,
@@ -103,12 +102,7 @@ const LandingPage = () => {
             <div className="max-w-6xl mx-auto px-6">
               <div className="flex h-14 items-center justify-between">
                 <Link to="/" className="flex items-center space-x-2 group">
-                  <div className="relative">
-                    <div className="absolute -inset-1 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-lg blur opacity-0 group-hover:opacity-100 transition duration-300"></div>
-                    <div className="relative flex items-center justify-center h-8 w-8 bg-gradient-to-br from-blue-500 to-purple-500 rounded-lg">
-                      <Sparkles className="h-4 w-4 text-white" />
-                    </div>
-                  </div>
+                  <img src="/logo.png" alt="HuntShot Logo" className="h-8 w-8" />
                   <span className="font-semibold text-lg">HuntShot</span>
                 </Link>
 
@@ -169,16 +163,14 @@ const LandingPage = () => {
           {/* Landing Page Sections */}
           <Hero handleGetStarted={handleGetStarted} />
           <Features />
-          <HowItWorks handleGetStarted={handleGetStarted} />
+          <HowItWorks />
 
           {/* Minimalistic Footer */}
           <footer className="py-12 border-t border-white/5">
             <div className="max-w-6xl mx-auto px-6">
               <div className="flex flex-col md:flex-row justify-between items-center">
                 <div className="flex items-center space-x-2 mb-4 md:mb-0">
-                  <div className="flex items-center justify-center h-6 w-6 bg-gradient-to-br from-blue-500 to-purple-500 rounded">
-                    <Sparkles className="h-3 w-3 text-white" />
-                  </div>
+                  <img src="/logo.png" alt="HuntShot Logo" className="h-6 w-6" />
                   <span className="font-semibold">HuntShot</span>
                 </div>
 

@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Upload, Brain, User, Mail, Sparkles } from "lucide-react";
+import { Upload, Brain, User, Mail } from "lucide-react";
 import { useRef } from "react";
 
 const HowItWorks = () => {
@@ -90,12 +90,6 @@ const HowItWorks = () => {
             transition={{ duration: 0.5 }}
             className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full py-2 px-4 border border-white/10 mb-6"
           >
-            <motion.div
-              animate={{ rotate: 360 }}
-              transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-            >
-              <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
-            </motion.div>
             <span className="text-sm text-white/80">Simple Process</span>
           </motion.div>
 

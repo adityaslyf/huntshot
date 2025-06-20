@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ArrowRight, Sparkles, Play } from "lucide-react";
+import { ArrowRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -24,7 +24,6 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
             transition={{ delay: 0.2, duration: 0.5 }}
             className="inline-flex items-center bg-white/5 backdrop-blur-sm rounded-full py-2 px-4 border border-white/10 mb-6"
           >
-            <Sparkles className="h-4 w-4 text-blue-400 mr-2" />
             <span className="text-sm text-white/80">AI-powered resume parsing</span>
           </motion.div>
 
