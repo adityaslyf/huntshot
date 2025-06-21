@@ -56,23 +56,15 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center"
           >
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-white text-black hover:bg-white/90 font-medium h-11 px-6 text-sm sm:h-12 sm:px-8 sm:text-base"
+              className="bg-white text-black hover:bg-white/90 font-medium h-10 px-6 text-sm w-auto sm:h-12 sm:px-8 sm:text-base"
             >
               Get Started Free
-              <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
-            </Button>
-            <Button
-              variant="outline"
-              size="lg"
-              className="border-white/20 text-white hover:bg-white/5 h-11 px-6 text-sm sm:h-12 sm:px-8 sm:text-base"
-            >
-              <Play className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
-              Watch Demo
+              {/* <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" /> */}
             </Button>
           </motion.div>
         </motion.div>
@@ -109,15 +101,6 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
                   </div>
                 </div>
               </motion.div>
-
-              {/* Video preview text */}
-              <div className="absolute bottom-6 left-6 right-6">
-                <div className="bg-black/50 backdrop-blur-sm rounded-lg p-4 border border-white/10">
-                  <div className="text-sm text-white/80">
-                    See how HuntShot transforms your resume in under 2 minutes
-                  </div>
-                </div>
-              </div>
             </div>
           </div>
         </motion.div>

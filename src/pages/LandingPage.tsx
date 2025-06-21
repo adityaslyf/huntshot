@@ -111,7 +111,7 @@ const LandingPage = () => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      className="text-white/70 hover:text-white hover:bg-white/5 h-9 px-4 text-sm"
+                      className="text-white/70 hover:text-white hover:bg-white/5 h-9 px-4 text-base"
                     >
                       Log in
                     </Button>
@@ -119,7 +119,7 @@ const LandingPage = () => {
                   <Button
                     onClick={handleGetStarted}
                     size="sm"
-                    className="bg-white text-black hover:bg-white/90 font-medium h-9 px-4 text-sm"
+                    className="bg-white text-black hover:bg-white/90 font-medium h-9 px-4 text-base"
                   >
                     Get Started
                   </Button>
@@ -148,13 +148,13 @@ const LandingPage = () => {
                   transition={{ duration: 0.2 }}
                   className="md:hidden bg-black/90 backdrop-blur-md border-t border-white/5"
                 >
-                  <div className="p-3 space-y-2">
+                  <div className="p-3 flex flex-col items-center space-y-2">
                     <Link to="/login">
-                      <Button variant="ghost" size="sm" className="w-full justify-start h-9 text-sm">
+                      <Button variant="ghost" size="sm" className="h-8 px-6 text-base">
                         Log in
                       </Button>
                     </Link>
-                    <Button onClick={handleGetStarted} size="sm" className="w-full h-9 text-sm">
+                    <Button onClick={handleGetStarted} size="sm" className="h-8 px-6 text-base">
                       Get Started
                     </Button>
                   </div>
