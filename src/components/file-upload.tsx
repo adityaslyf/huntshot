@@ -15,7 +15,7 @@ export function FileUpload({
   onFilesChange,
   files,
   maxFiles = 5,
-  maxSize = 10, // 10MB
+  maxSize = 5, // 5MB
   allowedTypes = [
     'application/pdf', 
     'application/msword', 

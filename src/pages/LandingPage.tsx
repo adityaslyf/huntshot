@@ -40,7 +40,7 @@ const LandingPage = () => {
   const handleGetStarted = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (user) {
-      navigate("/profile");
+      navigate("/home");
     } else {
       navigate("/login");
     }

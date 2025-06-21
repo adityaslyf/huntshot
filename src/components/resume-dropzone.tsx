@@ -135,7 +135,7 @@ export function ResumeDropzone({
                   {/* File size info */}
                   <div className="flex items-center justify-center text-xs text-muted-foreground">
                     <AlertCircle className="h-3 w-3 mr-1" />
-                    <span>Maximum file size: 10MB</span>
+                    <span>Maximum file size: 5MB</span>
                   </div>
                 </div>
               </motion.div>
