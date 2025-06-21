@@ -25,13 +25,14 @@ export function FormSection<T>({
   return (
     <div className={className}>
       <div className="space-y-4">
-        <div className="flex justify-between items-center">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
           <h2 className="text-lg font-semibold">{title}</h2>
           <Button
             type="button"
             variant="outline"
             size="sm"
             onClick={onAdd}
+            className="w-full sm:w-auto"
           >
             {addButtonText}
           </Button>
@@ -46,6 +47,7 @@ export function FormSection<T>({
                   variant="destructive"
                   size="sm"
                   onClick={() => onRemove(index)}
+                  className="w-full sm:w-auto"
                 >
                   <Trash2 className="h-4 w-4 mr-2" />
                   Remove

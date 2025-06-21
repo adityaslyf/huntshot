@@ -12,7 +12,7 @@ import { useToast } from "@/components/ui/custom-toaster"
 import { supabase } from '@/lib/supabase'
 import { LoadingSpinner } from "@/components/ui/loading-spinner"
 import { useAuth } from "@/hooks/user-auth"
-import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Mail, LogOut } from 'lucide-react'
+import { Save, Briefcase, GraduationCap, Trophy, FolderGit2, User, ChevronLeft, Mail, LogOut, Menu, X } from 'lucide-react'
 import { Tabs, TabsContent } from '@/components/ui/tabs'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
@@ -25,6 +25,10 @@ export default function ProfilePage() {
   const { toast } = useToast()
   const [activeTab, setActiveTab] = useState('basic-info')
   const [isSidebarCollapsed, setSidebarCollapsed] = useState(false)
+  const [isSidebarHidden, setSidebarHidden] = useState(false)
+  
+
+
   const navigate = useNavigate()
   const [alertInfo, setAlertInfo] = useState<{
     show: boolean;
@@ -258,18 +262,108 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[#0f172a] via-[#111827] to-[#131f38] flex overflow-hidden">
-      {/* Sidebar */}
-      <motion.div 
-        className={`fixed left-0 top-0 h-full bg-[#111827]/90 backdrop-blur-md shadow-xl z-10 transition-all duration-300 
-          ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}
-        initial={{ x: -20, opacity: 0.8 }}
-        animate={{ x: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: "easeOut" }}
-      >
+      {/* Mobile Header */}
+      <div className="lg:hidden fixed top-0 left-0 right-0 z-50 bg-[#111827]/90 backdrop-blur-md border-b border-white/5 p-4">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500/90 to-blue-600/70 flex items-center justify-center text-white font-semibold text-sm">
+              {profile?.basic_info?.name?.[0]?.toUpperCase() || userDetails?.email?.[0]?.toUpperCase() || 'U'}
+            </div>
+            <div>
+              <h3 className="font-medium text-white text-sm">
+                {profile?.basic_info?.name || userDetails?.email?.split('@')[0] || 'User'}
+              </h3>
+            </div>
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={handleLogout}
+            className="h-8 w-8 p-0"
+          >
+            <LogOut className="h-4 w-4" />
+          </Button>
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navigation */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#111827]/95 backdrop-blur-md border-t border-white/10">
+        <div className="flex items-center justify-around py-2">
+          <MobileNavButton
+            icon={<User />}
+            label="Info"
+            isActive={activeTab === 'basic-info'}
+            onClick={() => setActiveTab('basic-info')}
+          />
+          <MobileNavButton
+            icon={<Briefcase />}
+            label="Work"
+            isActive={activeTab === 'experience'}
+            onClick={() => setActiveTab('experience')}
+          />
+          <MobileNavButton
+            icon={<GraduationCap />}
+            label="Education"
+            isActive={activeTab === 'education'}
+            onClick={() => setActiveTab('education')}
+          />
+          <MobileNavButton
+            icon={<FolderGit2 />}
+            label="Projects"
+            isActive={activeTab === 'projects'}
+            onClick={() => setActiveTab('projects')}
+          />
+          <MobileNavButton
+            icon={<Trophy />}
+            label="Awards"
+            isActive={activeTab === 'achievements'}
+            onClick={() => setActiveTab('achievements')}
+          />
+          <MobileNavButton
+            icon={<Mail />}
+            label="Templates"
+            isActive={activeTab === 'templates'}
+            onClick={() => setActiveTab('templates')}
+          />
+        </div>
+      </div>
+
+      {/* Floating Sidebar Toggle Button - Desktop Only */}
+      {isSidebarHidden && (
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          className="hidden lg:block fixed left-4 top-4 z-50"
+        >
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setSidebarHidden(false)
+              setSidebarCollapsed(false)
+            }}
+            className="h-10 w-10 p-0 bg-[#111827]/90 backdrop-blur-md border border-white/10 hover:bg-[#111827] text-white rounded-full shadow-lg"
+            title="Show sidebar"
+          >
+            <Menu className="h-4 w-4" />
+          </Button>
+        </motion.div>
+      )}
+
+      {/* Desktop Sidebar */}
+      {!isSidebarHidden && (
+        <motion.div 
+          className={`hidden lg:block fixed left-0 top-0 h-full bg-[#111827]/90 backdrop-blur-md shadow-xl z-50 transition-all duration-300 
+            ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}
+          initial={{ x: -20, opacity: 0.8 }}
+          animate={{ x: 0, opacity: 1 }}
+          transition={{ duration: 0.3, ease: "easeOut" }}
+        >
         
         {/* Sidebar Header */}
         <div className="p-5 border-b border-white/5 bg-gradient-to-r from-[#111827]/90 to-[#111827]/60">
           <div className="flex items-center justify-between">
+
             {!isSidebarCollapsed && (
               <motion.div 
                 className="flex items-center space-x-3"
@@ -294,14 +388,26 @@ export default function ProfilePage() {
                 </div>
               </motion.div>
             )}
-            <Button 
-              variant="ghost" 
-              size="icon"
-              className="hover:bg-blue-500/10 rounded-full text-white/80"
-              onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
-            >
-              <ChevronLeft className={`h-4 w-4 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
-            </Button>
+            <div className="hidden lg:flex items-center gap-2">
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="hover:bg-blue-500/10 rounded-full text-white/80 h-8 w-8 p-0"
+                onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+                title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+              >
+                <ChevronLeft className={`h-3 w-3 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
+              </Button>
+              <Button 
+                variant="ghost" 
+                size="sm"
+                className="hover:bg-red-500/10 rounded-full text-white/80 h-8 w-8 p-0"
+                onClick={() => setSidebarHidden(true)}
+                title="Hide sidebar"
+              >
+                <X className="h-3 w-3" />
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -435,11 +541,14 @@ export default function ProfilePage() {
           </div>
         </div>
       </motion.div>
+      )}
 
       {/* Main Content */}
-      <div className={`flex-1 transition-all duration-300 ${isSidebarCollapsed ? 'ml-20' : 'ml-72'}`}>
+      <div className={`flex-1 transition-all duration-300 
+        ${isSidebarHidden ? 'lg:ml-0' : isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-72'} 
+        ml-0`}>
         {/* Content Area */}
-        <div className="p-8 pt-20 max-w-5xl mx-auto">
+        <div className="p-4 lg:p-8 pt-24 lg:pt-20 pb-24 lg:pb-8 max-w-5xl mx-auto">
           <motion.div
             key={activeTab}
             initial={{ opacity: 0, y: 20 }}
@@ -533,6 +642,22 @@ export default function ProfilePage() {
           </motion.div>
         </div>
       </div>
+
+      {/* Mobile Floating Save Button */}
+      <div className="lg:hidden fixed bottom-20 right-4 z-40">
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        >
+          <Button
+            onClick={handleSave}
+            className="h-12 w-12 rounded-full bg-blue-500 hover:bg-blue-600 text-white shadow-lg p-0"
+          >
+            <Save className="h-5 w-5" />
+          </Button>
+        </motion.div>
+      </div>
     </div>
   )
 }
@@ -597,6 +722,46 @@ function NavButton({ icon, label, isActive, isCollapsed, onClick }: NavButtonPro
         )}
       </Button>
     </motion.div>
+  )
+}
+
+// Mobile Navigation Button Component
+interface MobileNavButtonProps {
+  icon: React.ReactNode
+  label: string
+  isActive: boolean
+  onClick: () => void
+}
+
+function MobileNavButton({ icon, label, isActive, onClick }: MobileNavButtonProps) {
+  return (
+    <motion.button
+      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      className={`flex flex-col items-center justify-center py-2 px-3 rounded-lg transition-all duration-200 ${
+        isActive 
+          ? 'text-blue-400 bg-blue-500/10' 
+          : 'text-white/70 hover:text-white hover:bg-white/5'
+      }`}
+    >
+      <motion.div
+        animate={isActive ? { scale: [1, 1.2, 1] } : { scale: 1 }}
+        transition={{ duration: 0.3 }}
+        className="mb-1"
+      >
+        {icon}
+      </motion.div>
+      <span className="text-xs font-medium">{label}</span>
+      {isActive && (
+        <motion.div
+          layoutId="mobileActiveIndicator"
+          className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-6 h-0.5 bg-blue-400 rounded-full"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.2 }}
+        />
+      )}
+    </motion.button>
   )
 }
 

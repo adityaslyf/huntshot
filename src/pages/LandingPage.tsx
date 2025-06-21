@@ -106,18 +106,20 @@ const LandingPage = () => {
                   <span className="font-semibold text-lg">HuntShot</span>
                 </Link>
 
-                <div className="hidden md:flex items-center space-x-6">
+                <div className="hidden md:flex items-center space-x-4">
                   <Link to="/login">
                     <Button
                       variant="ghost"
-                      className="text-white/70 hover:text-white hover:bg-white/5"
+                      size="sm"
+                      className="text-white/70 hover:text-white hover:bg-white/5 h-9 px-4 text-sm"
                     >
                       Log in
                     </Button>
                   </Link>
                   <Button
                     onClick={handleGetStarted}
-                    className="bg-white text-black hover:bg-white/90 font-medium"
+                    size="sm"
+                    className="bg-white text-black hover:bg-white/90 font-medium h-9 px-4 text-sm"
                   >
                     Get Started
                   </Button>
@@ -128,8 +130,9 @@ const LandingPage = () => {
                     variant="ghost"
                     size="sm"
                     onClick={toggleMobileMenu}
+                    className="h-8 w-8 p-0"
                   >
-                    {showMobileMenu ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                    {showMobileMenu ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
                   </Button>
                 </div>
               </div>
@@ -145,13 +148,13 @@ const LandingPage = () => {
                   transition={{ duration: 0.2 }}
                   className="md:hidden bg-black/90 backdrop-blur-md border-t border-white/5"
                 >
-                  <div className="p-4 space-y-3">
+                  <div className="p-3 space-y-2">
                     <Link to="/login">
-                      <Button variant="ghost" className="w-full justify-start">
+                      <Button variant="ghost" size="sm" className="w-full justify-start h-9 text-sm">
                         Log in
                       </Button>
                     </Link>
-                    <Button onClick={handleGetStarted} className="w-full">
+                    <Button onClick={handleGetStarted} size="sm" className="w-full h-9 text-sm">
                       Get Started
                     </Button>
                   </div>

@@ -56,21 +56,22 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="flex flex-col sm:flex-row gap-4 justify-center"
+            className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center"
           >
             <Button
               onClick={handleGetStarted}
               size="lg"
-              className="bg-white text-black hover:bg-white/90 font-medium px-8 py-3"
+              className="bg-white text-black hover:bg-white/90 font-medium h-11 px-6 text-sm sm:h-12 sm:px-8 sm:text-base"
             >
               Get Started Free
-              <ArrowRight className="ml-2 h-4 w-4" />
+              <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" />
             </Button>
             <Button
               variant="outline"
               size="lg"
-              className="border-white/20 text-white hover:bg-white/5 px-8 py-3"
+              className="border-white/20 text-white hover:bg-white/5 h-11 px-6 text-sm sm:h-12 sm:px-8 sm:text-base"
             >
+              <Play className="mr-2 h-3 w-3 sm:h-4 sm:w-4" />
               Watch Demo
             </Button>
           </motion.div>

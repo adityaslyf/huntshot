@@ -27,10 +27,11 @@ const buttonVariants = cva(
           "bg-gradient-to-r from-primary to-accent text-white shadow-md hover:shadow-lg hover:opacity-90 hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200",
       },
       size: {
-        default: "h-10 px-5 py-2",
-        sm: "h-9 rounded-lg px-3 text-xs",
-        lg: "h-12 rounded-xl px-8 text-base",
-        icon: "h-10 w-10",
+        default: "h-10 px-5 py-2 sm:h-10 sm:px-5 sm:py-2",
+        sm: "h-8 px-3 text-xs sm:h-9 sm:px-3 sm:text-xs",
+        lg: "h-10 px-4 text-sm sm:h-12 sm:px-8 sm:text-base",
+        icon: "h-8 w-8 sm:h-10 sm:w-10",
+        mobile: "h-9 px-4 py-2 text-sm sm:h-10 sm:px-5 sm:py-2 sm:text-base",
       },
       animation: {
         none: "",
