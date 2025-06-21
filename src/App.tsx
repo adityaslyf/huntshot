@@ -42,7 +42,7 @@ function App() {
       opacity: 1,
       transition: { 
         when: "beforeChildren",
-        staggerChildren: 0.3,
+        staggerChildren: 0.2,
         duration: 0.5
       }
     }
@@ -61,71 +61,74 @@ function App() {
     <AuthProvider>
       <ProfileProvider>
         <ThemeProvider defaultTheme="system">
-          <div className="relative min-h-screen bg-background text-foreground overflow-hidden">
-            {/* Background decorative elements */}
-            <div className="blob w-[500px] h-[500px] -top-64 -left-64 opacity-20"></div>
-            <div className="blob w-[600px] h-[600px] -bottom-96 -right-96 opacity-10"></div>
-            <div className="absolute top-0 right-0 w-full h-full bg-gradient-radial from-transparent to-background opacity-70 pointer-events-none"></div>
-            
+          <div className="relative min-h-screen bg-background text-foreground">
             <Header />
             
-            <main className="relative container mx-auto px-4 py-8">
+            <main className="container mx-auto px-4 py-8 lg:py-16">
               <motion.div 
                 className="max-w-4xl mx-auto"
                 variants={containerVariants}
                 initial="hidden"
                 animate="visible"
               >
+                {/* Title Section */}
                 <motion.div 
-                  className="text-center mb-12"
+                  className="text-center mb-8 lg:mb-12"
                   variants={itemVariants}
                 >
-                  <div className="flex items-center justify-center mb-4">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Resume Parser</h1>
+                  <div className="mb-6">
+                    <h1 className="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-bold tracking-tight mb-4">
+                      Resume Parser
+                    </h1>
+                    <p className="max-w-2xl mx-auto text-sm sm:text-base lg:text-lg text-gray-500 dark:text-gray-400 leading-relaxed px-4">
+                      Upload your resume and we'll parse it for you using advanced AI technology.
+                    </p>
                   </div>
-                  <p className="max-w-[600px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed dark:text-gray-400">
-                    Upload your resume and we'll parse it for you.
-                  </p>
                 </motion.div>
                 
-                <motion.div variants={itemVariants}>
+                {/* Resume Upload Section */}
+                <motion.div 
+                  variants={itemVariants}
+                  className="mb-12 lg:mb-16"
+                >
                   <ResumeDropzone 
                     onParse={handleResumeParse} 
                     isProcessing={isProcessing} 
                   />
                 </motion.div>
                 
+                {/* Features Section */}
                 <motion.div 
-                  className="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6"
+                  className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"
                   variants={itemVariants}
                 >
                   {[
                     { 
                       title: 'Upload Resume', 
                       description: 'Support for PDF, DOC, and DOCX formats',
-                      icon: <Upload className="h-6 w-6" />
+                      icon: <Upload className="h-5 w-5 sm:h-6 sm:w-6" />
                     },
                     { 
                       title: 'AI Parsing', 
                       description: 'Our AI extracts all relevant information',
-                      icon: <FileText className="h-6 w-6" />
+                      icon: <FileText className="h-5 w-5 sm:h-6 sm:w-6" />
                     },
                     { 
                       title: 'Get Started', 
                       description: 'Create your professional profile instantly',
-                      icon: <ChevronRight className="h-6 w-6" />
+                      icon: <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                     }
                   ].map((item, i) => (
                     <motion.div
                       key={i}
-                      className="card-glass"
-                      whileHover={{ y: -5, transition: { type: 'spring', stiffness: 300 } }}
+                      className="p-4 sm:p-6 rounded-xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-all duration-300"
+                      whileHover={{ y: -2, transition: { type: 'spring', stiffness: 300 } }}
                     >
-                      <div className="glass p-3 rounded-full inline-block mb-4">
+                      <div className="flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-full bg-primary/10 mb-3 sm:mb-4">
                         <div className="text-primary">{item.icon}</div>
                       </div>
-                      <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
-                      <p className="text-muted-foreground text-sm">{item.description}</p>
+                      <h3 className="text-base sm:text-lg font-semibold mb-2">{item.title}</h3>
+                      <p className="text-xs sm:text-sm text-muted-foreground leading-relaxed">{item.description}</p>
                     </motion.div>
                   ))}
                 </motion.div>
