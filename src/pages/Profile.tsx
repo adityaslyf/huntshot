@@ -352,13 +352,13 @@ export default function ProfilePage() {
 
       {/* Desktop Sidebar */}
       {!isSidebarHidden && (
-        <motion.div 
+      <motion.div 
           className={`hidden lg:block fixed left-0 top-0 h-full bg-[#111827]/90 backdrop-blur-md shadow-xl z-50 transition-all duration-300 
-            ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}
-          initial={{ x: -20, opacity: 0.8 }}
-          animate={{ x: 0, opacity: 1 }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
-        >
+          ${isSidebarCollapsed ? 'w-20' : 'w-72'}`}
+        initial={{ x: -20, opacity: 0.8 }}
+        animate={{ x: 0, opacity: 1 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
         
         {/* Sidebar Header */}
         <div className="p-5 border-b border-white/5 bg-gradient-to-r from-[#111827]/90 to-[#111827]/60">
@@ -389,13 +389,13 @@ export default function ProfilePage() {
               </motion.div>
             )}
             <div className="hidden lg:flex items-center gap-2">
-              <Button 
-                variant="ghost" 
+            <Button 
+              variant="ghost" 
                 size="sm"
                 className="hover:bg-blue-500/10 rounded-full text-white/80 h-8 w-8 p-0"
-                onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
+              onClick={() => setSidebarCollapsed(!isSidebarCollapsed)}
                 title={isSidebarCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-              >
+            >
                 <ChevronLeft className={`h-3 w-3 transition-transform ${isSidebarCollapsed ? 'rotate-180' : ''}`} />
               </Button>
               <Button 
@@ -406,7 +406,7 @@ export default function ProfilePage() {
                 title="Hide sidebar"
               >
                 <X className="h-3 w-3" />
-              </Button>
+            </Button>
             </div>
           </div>
         </div>

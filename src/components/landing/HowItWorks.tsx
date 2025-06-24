@@ -11,25 +11,25 @@ import {
 const steps = [
   {
     icon: Upload,
-    title: "Upload Resume",
-    description:
+                title: "Upload Resume",
+                description:
       "Start by uploading your resume in PDF or DOCX format.",
   },
   {
     icon: BrainCircuit,
-    title: "AI Processing",
+                title: "AI Processing",
     description: "Our AI carefully extracts key information from your document.",
-  },
-  {
+              },
+              {
     icon: Award,
-    title: "Create Profile",
-    description:
+                title: "Create Profile",
+                description:
       "A professional profile is automatically generated for you to review.",
-  },
-  {
+              },
+              {
     icon: Mails,
     title: "Generate Emails",
-    description:
+                description:
       "Create personalized outreach emails based on your new profile.",
   },
 ];
@@ -57,7 +57,7 @@ const HowItWorks = () => {
           viewport={{ once: true, amount: 0.5 }}
           transition={{ duration: 0.6 }}
           className="text-center mb-16 md:mb-20"
-        >
+          >
           <h2 className="text-4xl md:text-5xl font-bold mb-6 bg-gradient-to-r from-white via-blue-100 to-purple-200 bg-clip-text text-transparent">
             How It Works
           </h2>

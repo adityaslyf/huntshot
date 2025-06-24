@@ -1,5 +1,4 @@
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface HeroProps {
@@ -64,12 +63,11 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
               className="bg-white text-black hover:bg-white/90 font-medium h-10 px-6 text-sm w-auto sm:h-12 sm:px-8 sm:text-base"
             >
               Get Started Free
-              {/* <ArrowRight className="ml-2 h-3 w-3 sm:h-4 sm:w-4" /> */}
             </Button>
           </motion.div>
         </motion.div>
 
-        {/* Video Placeholder */}
+        {/* Video Container */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -81,27 +79,19 @@ const Hero = ({ handleGetStarted }: HeroProps) => {
           
           {/* Video container */}
           <div className="relative bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden aspect-video">
-            {/* Simple grid pattern */}
-            <div className="absolute inset-0 opacity-[0.02] bg-repeat" style={{
-              backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23FFFFFF' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='1'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
-            }}></div>
-
-            {/* Video placeholder content */}
-            <div className="relative h-full flex items-center justify-center">
-              {/* Play button overlay */}
-              <motion.div
-                whileHover={{ scale: 1.1 }}
-                whileTap={{ scale: 0.9 }}
-                className="group cursor-pointer"
-              >
-                <div className="relative">
-                  <div className="absolute -inset-4 bg-gradient-to-r from-blue-500/20 to-purple-500/20 rounded-full blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="relative w-20 h-20 bg-white/10 backdrop-blur-sm border border-white/20 rounded-full flex items-center justify-center group-hover:bg-white/20 transition-colors">
-                    <Play className="h-8 w-8 text-white ml-1" />
-                  </div>
-                </div>
-              </motion.div>
-            </div>
+            {/* Local compressed video */}
+            <video
+              className="w-full h-full object-cover rounded-2xl"
+              controls
+              autoPlay
+              muted
+              loop
+              preload="metadata"
+              poster="/path-to-thumbnail.jpg" // Optional: you can add a thumbnail
+            >
+              <source src="/demo-compressed.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </motion.div>
       </div>
